@@ -1,0 +1,24 @@
+{
+  "name": "the-coding-owl/oclock",
+  "description": "This extension provides a clock in the TYPO3 Backend and gives a few neat functions",
+  "type": "typo3-cms-extension",
+  "require": {
+    "typo3/cms-core": "^9.5.9"
+  },
+  "authors": [
+    {
+      "name": "Kevin Ditscheid",
+      "email": "kevin@the-coding-owl.de",
+      "role": "Owner"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "TheCodingOwl\\Oclock\\": "Classes/"
+    }
+  },
+  "replace": {
+    "oclock": "self.version",
+    "typo3-ter/oclock": "self.version"
+  }
+}
