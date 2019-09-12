@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-09-12T20:46:00Z" product-name="oclock">
+		<header/>
+		<body>
+            <trans-unit id="toolbar.timezone.server" xml:space="preserve">
+                <source>Server Timezone</source>
+            </trans-unit>
+            <trans-unit id="toolbar.time.server" xml:space="preserve">
+                <source>Server Time</source>
+            </trans-unit>
+            <trans-unit id="toolbar.timezone.browser" xml:space="preserve">
+                <source>Browser Timezone</source>
+            </trans-unit>
+            <trans-unit id="toolbar.time.browser" xml:space="preserve">
+                <source>Browser Time</source>
+            </trans-unit>
+		</body>
+	</file>
+</xliff>
