@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-09-12T20:46:00Z" product-name="oclock">
+		<header/>
+		<body>
+            <trans-unit id="reminder.add.title" xml:space="preserve">
+                <source>Add new reminder</source>
+            </trans-unit>
+            <trans-unit id="reminder.add.successfull" xml:space="preserve">
+                <source>Reminder successfully added</source>
+            </trans-unit>
+            <trans-unit id="reminder.add.error" xml:space="preserve">
+                <source>Reminder could not be added</source>
+            </trans-unit>
+		</body>
+	</file>
+</xliff>
