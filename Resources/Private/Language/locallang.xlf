@@ -15,6 +15,21 @@
             <trans-unit id="toolbar.time.browser" xml:space="preserve">
                 <source>Browser Time</source>
             </trans-unit>
+            <trans-unit id="toolbar.reminder" xml:space="preserve">
+                <source>Reminder</source>
+            </trans-unit>
+            <trans-unit id="toolbar.reminder.add" xml:space="preserve">
+                <source>Add new reminder</source>
+            </trans-unit>
+            <trans-unit id="toolbar.reminder.edit" xml:space="preserve">
+                <source>Edit reminders</source>
+            </trans-unit>
+            <trans-unit id="reminder.delete.successfull" xml:space="preserve">
+                <source>Reminder successfully deleted</source>
+            </trans-unit>
+            <trans-unit id="reminder.edit.error" xml:space="preserve">
+                <source>Reminder could not be edited</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>
