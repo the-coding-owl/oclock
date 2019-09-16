@@ -16,7 +16,7 @@
 $EM_CONF[$_EXTKEY] = array(
     'title' => 'Display a clock in the TYPO3 Backend',
     'description' => 'This extension provides a clock in the TYPO3 Backend and gives a few neat functions',
-    'category' => 'backend',
+    'category' => 'be',
     'author' => 'Kevin Ditscheid',
     'author_email' => 'kevin@the-coding-owl.de',
     'author_company' => '',
