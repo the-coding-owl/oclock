@@ -9,3 +9,17 @@ It is also possible to install it via composer, if your project is composer enab
 There is no configuration available at this point.
 
 # Usage
+For displaying the times and timezones, you do not need to configure anything.
+The information will be displayed in the top toolbar of the TYPO3 backend.
+Time will be ticking automatically, but be aware that it will not be synced with the server.
+So keep in mind, that if you suspend your computer, it will probably stop the timer and will go out og sync
+because of that. Simply reload your backend in that case.
+
+# Contribution
+If you find any issues, please file bug reports at https://github.com/the-coding-owl/oclock/issues.
+You can also contribute code, by opening pull requests on github.
+For feature requests, please also use the github issue tracker.
+
+# Cudos
+Cudos to the guys from Luxon (https://moment.github.io/luxon/index.html), because they enable JavaScript to work
+with Timezones.
