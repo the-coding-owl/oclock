@@ -2,6 +2,18 @@
   "name": "the-coding-owl/oclock",
   "description": "This extension provides a clock in the TYPO3 Backend and gives a few neat functions",
   "type": "typo3-cms-extension",
+  "homepage": "https://github.com/the-coding-owl/oclock",
+  "keywords": [
+    "typo3",
+    "backend",
+    "time",
+    "clock",
+    "reminder"
+  ],
+  "support": {
+    "issues": "https://github.com/the-coding-owl/oclock/issues",
+    "source": "https://github.com/the-coding-owl/oclock/issues"
+  },
   "license": "GPL-3.0-or-later",
   "require": {
     "typo3/cms-core": "^9.5.9",
