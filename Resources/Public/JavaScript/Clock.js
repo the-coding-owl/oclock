@@ -1,4 +1,4 @@
-define(['jquery'],function($){
+define(['jquery', 'TYPO3/CMS/Oclock/Luxon'], function($, luxon){
     let Clock = {
         selector: '.tx_oclock',
         serverTimeSelector: '.server-time',
@@ -11,23 +11,29 @@ define(['jquery'],function($){
             containers.each(function(){
                 let container = $(this),
                     elements = container.find(clock.serverTimeSelector),
-                    date = new Date(container.data('time'));
+                    date = luxon.DateTime.fromRFC2822(
+                        container.data('time'),
+                        { zone: container.data('timezone') }
+                    );
                 clock.setTimeZone(date, container.find(clock.serverTimeZoneSelector));
                 elements.each(function() {
                     let element = $(this),
                         spans = clock.createTimeSpans()
-                        date = new Date(container.data('time'));
+                        date = luxon.DateTime.fromRFC2822(
+                            container.data('time'),
+                            { zone: container.data('timezone') }
+                        );
                     clock.updateTime(date, spans);
                     clock.appendTimes(element, spans);
                     clock.setClock(date, spans);
                 });
                 let browserElements = container.find(clock.browserTimeSelector);
-                date = new Date();
+                date = luxon.DateTime.local();
                 clock.setTimeZone(date, container.find(clock.browserTimeZoneSelector));
                 browserElements.each(function () {
                     let element = $(this),
                         spans = clock.createTimeSpans()
-                        date = new Date();
+                        date = luxon.DateTime.local();
                     clock.updateTime(date, spans);
                     clock.appendTimes(element, spans);
                     clock.setClock(date, spans);
@@ -35,9 +41,9 @@ define(['jquery'],function($){
             });
         },
         updateTime: function(date, spans) {
-            let hours = date.getHours(),
-                minutes = date.getMinutes(),
-                seconds = date.getSeconds();
+            let hours = date.hour,
+                minutes = date.minute,
+                seconds = date.second;
             spans.hour.innerText = hours < 10 ? '0' + hours : hours;
             spans.minute.innerText = minutes < 10 ? '0' + minutes : minutes;
             spans.second.innerText = seconds < 10 ? '0' + seconds : seconds;
@@ -56,7 +62,7 @@ define(['jquery'],function($){
         setClock: function(date, spans) {
             let clock = this;
             setInterval(function(){
-                date.setSeconds(date.getSeconds() + 1);
+                date = date.plus({seconds: 1});
                 clock.updateTime(date, spans);
             }, 1000);
         },
@@ -68,7 +74,7 @@ define(['jquery'],function($){
             element.append(spans.second);
         },
         setTimeZone: function(date, element) {
-            element.text(/\((.*)\)/.exec(date.toString())[1]);
+            element.text(date.offsetNameLong);
         }
     };
     Clock.init();

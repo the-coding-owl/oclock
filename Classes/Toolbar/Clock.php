@@ -14,6 +14,7 @@ class Clock implements ToolbarItemInterface {
 
     public function __construct() {
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
         $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
         $this->languageService = GeneralUtility::makeInstance(LanguageService::class);
     }
@@ -39,9 +40,11 @@ class Clock implements ToolbarItemInterface {
     }
 
     public function getAdditionalAttributes() {
+        $currentDateTime = new \DateTime();
         return [
             'class' => 'tx_oclock',
-            'data-time' => (new \DateTime())->format('r')
+            'data-time' => $currentDateTime->format('r'),
+            'data-timezone' => $currentDateTime->format('e')
         ];
     }
 
