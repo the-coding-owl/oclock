@@ -1,5 +1,5 @@
-define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', 'TYPO3/CMS/Backend/Severity'],
-    function ($, Modal, Notification, Severity) {
+define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', 'TYPO3/CMS/Backend/Severity', 'twbs/bootstrap-datetimepicker', 'TYPO3/CMS/Backend/DateTimePicker'],
+    function ($, Modal, Notification, Severity, twbsDateTime, DateTimePicker) {
         let Reminder = {
             containerSelector: '.tx_oclock',
             selectorAdd: '.reminder-add',
@@ -12,26 +12,26 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                         let addButton = $(this);
                         addButton.on('click', function(event) {
                             event.preventDefault();
-                            Modal.show(
-                                TYPO3.lang['reminder.add.title'],
-                                '<form method="POST" action="' + TYPO3.settings.ajaxUrls['oclock/reminder_add'] + '">'
+                            Modal.advanced({
+                                title: TYPO3.lang['oclock/reminder.add.title'],
+                                content: $('<form class="tx_oclock_form" method="POST" action="' + TYPO3.settings.ajaxUrls['oclock/reminder_add'] + '">'
                                     + '<p class="form-group">'
                                         + '<label for="tx-oclock-message">'
-                                            + TYPO3.lang['reminder.message']
+                                            + TYPO3.lang['oclock/reminder.message']
                                         + '</label>'
                                         + '<br />'
                                         + '<textarea name="message" class="form-control" id="tx-oclock-message" cols="40" rows="12" />'
                                     + '</p>'
                                     + '<p>'
                                         + '<label for="tx-oclock-datetime">'
-                                            + TYPO3.lang['reminder.datetime']
+                                            + TYPO3.lang['oclock/reminder.datetime']
                                         + '</label>'
                                         + '<br />'
-                                        + '<input type="text" name="datetime" class="form-control" id="tx-oclock-datetime" />'
+                                        + '<input type="datetime-local" name="datetime" class="t3js-datetimepicker form-control" id="tx-oclock-datetime" />'
                                     + '</p>'
-                                + '</form>',
-                                Severity.info,
-                                [
+                                + '</form>'),
+                                severity: Severity.info,
+                                buttons: [
                                     {
                                         text: TYPO3.lang['button.cancel'],
                                         active: true,
@@ -40,7 +40,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                                             Modal.dismiss();
                                         }
                                     }, {
-                                        text: TYPO3.lang['button.save'],
+                                        text: TYPO3.lang['oclock/reminder.button.save'],
                                         btnClass: 'btn-warning',
                                         name: 'save',
                                         trigger: function () {
@@ -50,26 +50,30 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                                             }).done(function(response) {
                                                 if (response.success) {
                                                     Notification.success(
-                                                        TYPO3.lang['reminder.add.successfull'],
+                                                        TYPO3.lang['oclock/reminder.add.successfull'],
                                                         response.message
                                                     );
                                                 } else {
                                                     Notification.error(
-                                                        TYPO3.lang['reminder.add.error'],
+                                                        TYPO3.lang['oclock/reminder.add.error'],
                                                         response.message
                                                     );
                                                 }
                                             }).fail(function( jqXHR, textStatus) {
                                                 Notification.error(
-                                                    TYPO3.lang['reminder.add.error'],
+                                                    TYPO3.lang['oclock/reminder.add.error'],
                                                     textStatus
                                                 );
                                             });
                                             Modal.dismiss();
                                         }
                                     }
-                                ]
-                            );
+                                ],
+                                callback: function(currentModal) {
+                                    console.debug(currentModal);
+                                    DateTimePicker.initializeField(currentModal.find('.tx_oclock_form .t3js-datetimepicker'));
+                                }
+                            });
                         });
                     });
                 });

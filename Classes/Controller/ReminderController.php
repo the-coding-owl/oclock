@@ -10,6 +10,9 @@ use TYPO3\CMS\Core\Localization\LanguageService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Controller for the reminders
+ */
 class ReminderController {
     /**
      * @var LanguageService
@@ -19,14 +22,23 @@ class ReminderController {
     /**
      * @var Connection
      */
-    protected $connecction;
+    protected $connection;
 
+    /**
+     * Constructor of the ReminderController
+     */
     public function __construct() {
         $this->languageService = GeneralUtility::makeInstance(LanguageService::class);
         $this->connection = GeneralUtility::makeInstance(ConnectionPool::class)
             ->getConnectionForTable('tx_oclock_reminder');
     }
 
+    /**
+     * Add a new reminder
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
     public function addAction(ServerRequestInterface $request): ResponseInterface {
         try{
             $params = $request->getParsedBody();
@@ -49,6 +61,12 @@ class ReminderController {
         return $response;
     }
 
+    /**
+     * List reminders
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
     public function listAction(ServerRequestInterface $request): ResponseInterface {
         try {
             $queryBuilder = $this->connection->createQueryBuilder();
@@ -86,6 +104,12 @@ class ReminderController {
         return $response;
     }
 
+    /**
+     * Delete a reminder
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
     public function deleteAction(ServerRequestInterface $request): ResponseInterface {
         try {
             $this->connection->delete(
@@ -113,6 +137,12 @@ class ReminderController {
         return $response;
     }
 
+    /**
+     * Edit a reminder
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
     public function editAction(ServerRequestInterface $request): ResponseInterface {
         try {
             $queryBuilder = $this->connection->createQueryBuilder();
