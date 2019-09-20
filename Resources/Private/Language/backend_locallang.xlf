@@ -21,6 +21,24 @@
             <trans-unit id="oclock/reminder.datetime" xml:space="preserve">
                 <source>Date</source>
             </trans-unit>
+            <trans-unit id="oclock/reminder.delete.title" xml:space="preserve">
+                <source>Delete reminder</source>
+            </trans-unit>
+            <trans-unit id="oclock/reminder.delete.message" xml:space="preserve">
+                <source>Do you really want to delete the reminder?</source>
+            </trans-unit>
+            <trans-unit id="oclock/reminder.delete.button" xml:space="preserve">
+                <source>Delete</source>
+            </trans-unit>
+            <trans-unit id="oclock/reminder.delete.successfull" xml:space="preserve">
+                <source>Reminder deleted</source>
+            </trans-unit>
+            <trans-unit id="oclock/reminder.delete.error" xml:space="preserve">
+                <source>Reminder could not be deleted</source>
+            </trans-unit>
+            <trans-unit id="oclock/reminder.list.title" xml:space="preserve">
+                <source>List reminders</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

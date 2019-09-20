@@ -6,7 +6,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\JsonResponse;
+use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -85,20 +88,50 @@ class ReminderController {
                 ->setFirstResult(0)
                 ->execute()
                 ->fetchAll();
-            $response = new JsonResponse(
-                [
-                    'results' => $results,
-                    'success' => TRUE,
-                    'message' => ''
-                ]
-            );
+            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+            $content = '<table class="table table-striped table-hover">'
+                . '<thead>'
+                    . '<tr>'
+                        . '<th>'
+                            . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.list.message')
+                        . '</th>'
+                        . '<th>'
+                            . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.list.date')
+                        . '</th>'
+                        . '<th>'
+                            . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.list.edit')
+                        . '</th>'
+                        . '<th>'
+                            . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.list.delete')
+                        . '</th>'
+                    . '</tr>'
+                . '</thead>'
+                . '<tbody>';
+            foreach($results as $result) {
+                $content .= '<tr>'
+                    . '<td class="col-responsive">'
+                        . $result['message']
+                    . '</td>'
+                    . '<td>'
+                        . (new \DateTime($result['datetime']))->format('r')
+                    . '</td>'
+                    . '<td>'
+                        . '<a href="#" class="reminder-edit" data-uid="' . (int) $reminder['uid'] . '">'
+                            . $iconFactory->getIcon('actions-open', Icon::SIZE_SMALL)->render()
+                        . '</a>'
+                    . '</td>'
+                    . '<td>'
+                        . '<a href="#" class="reminder-delete" data-uid="' . (int) $reminder['uid'] . '">'
+                            . $iconFactory->getIcon('actions-delete', Icon::SIZE_SMALL)->render()
+                        . '</a>'
+                    . '</td>'
+                . '</tr>';
+            }
+            $content .= '</tbody>'
+                . '</table>';
+            $response = new HtmlResponse($content);
         } catch (\Exception $e) {
-            $response = new JsonResponse(
-                [
-                    'success' => FALSE,
-                    'message' => $e->getMessage()
-                ]
-            );
+            $response = new HtmlResponse('<div class="panel panel-error">' . $e->getMessage() . '</div>');
         }
 
         return $response;

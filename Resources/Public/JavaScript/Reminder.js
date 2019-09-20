@@ -3,11 +3,16 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
         let Reminder = {
             containerSelector: '.tx_oclock',
             selectorAdd: '.reminder-add',
+            selectorList: '.reminder-list',
+            selectorDelete: '.reminder-delete',
             selectorEdit: '.reminder-edit',
             init: function() {
                 let reminder = this;
                 $(this.containerSelector).each(function() {
                     let container = $(this);
+                    /**
+                     * Register the add button event
+                     */
                     container.find(reminder.selectorAdd).each(function () {
                         let addButton = $(this);
                         addButton.on('click', function(event) {
@@ -64,14 +69,97 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                                                     TYPO3.lang['oclock/reminder.add.error'],
                                                     textStatus
                                                 );
+                                            }).always(function() {
+                                                Modal.dismiss();
                                             });
-                                            Modal.dismiss();
                                         }
                                     }
                                 ],
                                 callback: function(currentModal) {
-                                    console.debug(currentModal);
                                     DateTimePicker.initializeField(currentModal.find('.tx_oclock_form .t3js-datetimepicker'));
+                                }
+                            });
+                        });
+                    });
+                    /**
+                     * Register the list button event
+                     */
+                    container.find(reminder.selectorList).each(function() {
+                        let listButton = $(this);
+                        listButton.on('click', function(event) {
+                            event.preventDefault();
+                            Modal.advanced({
+                                title: TYPO3.lang['oclock/reminder.list.title'],
+                                type: Modal.types.ajax,
+                                severity: Severity.notice,
+                                buttons: [
+                                    {
+                                        text: TYPO3.lang['button.close'],
+                                        active: true,
+                                        btnClass: 'btn-default',
+                                        trigger: function () {
+                                            Modal.dismiss();
+                                        }
+                                    }
+                                ],
+                                content: TYPO3.settings.ajaxUrls['oclock/reminder_list'],
+                                ajaxCallback: function() {
+                                    Modal.currentModal.find(reminder.selectorDelete).on('click', function(event) {
+                                        event.preventDefault();
+                                        let reminder = $(event.target);
+                                        Modal.confirm(
+                                            TYPO3.lang['oclock/reminder.delete.title'],
+                                            TYPO3.lang['oclock/reminder.delete.message'],
+                                            Severity.warning,
+                                            [
+                                                {
+                                                    text: TYPO3.lang['button.cancel'],
+                                                    active: true,
+                                                    btnClass: 'btn-default',
+                                                    trigger: function () {
+                                                        Modal.dismiss();
+                                                    }
+                                                },{
+                                                    text: TYPO3.lang['oclock/reminder.delete.button'],
+                                                    btnClass: 'btn-warning',
+                                                    name: 'delete',
+                                                    trigger: function () {
+                                                        $.ajax({
+                                                            method: 'DELETE',
+                                                            data: {
+                                                                'reminder': reminder.data('uid')
+                                                            },
+                                                            url: TYPO3.settings.ajaxUrls['oclock/reminder_delete']
+                                                        }).done(function(response) {
+                                                            if (response.success) {
+                                                                Notification.success(
+                                                                    TYPO3.lang['oclock/reminder.delete.successfull'],
+                                                                    response.message
+                                                                );
+                                                            } else {
+                                                                Notification.error(
+                                                                    TYPO3.lang['oclock/reminder.delete.error'],
+                                                                    response.message
+                                                                );
+                                                            }
+                                                        }).fail(function( jqXHR, textStatus) {
+                                                            Notification.error(
+                                                                TYPO3.lang['oclock/reminder.delete.error'],
+                                                                textStatus
+                                                            );
+                                                        }).always(function() {
+                                                            Modal.dismiss();
+                                                            Modal.dismiss();
+                                                        });
+                                                    }
+                                                }
+                                            ]
+                                        );
+                                    });
+                                    Modal.currentModal.find(reminder.selectorEdit).on('click', function(event) {
+                                        event.preventDefault();
+                                        let reminder = $(event.target);
+                                    });
                                 }
                             });
                         });

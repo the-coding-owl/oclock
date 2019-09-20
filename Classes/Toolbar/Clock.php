@@ -77,8 +77,8 @@ class Clock implements ToolbarItemInterface {
             . '<button class="btn btn-default reminder-add" title="' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.reminder.add') . '">'
             . $iconRegistry->getIcon('actions-add', Icon::SIZE_SMALL)->render()
             . '</button>&nbsp;'
-            . '<button class="btn btn-default reminder-edit" title="' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.reminder.edit') . '">'
-            . $iconRegistry->getIcon('actions-open', Icon::SIZE_SMALL)->render()
+            . '<button class="btn btn-default reminder-list" title="' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.reminder.edit') . '">'
+            . $iconRegistry->getIcon('actions-calendar', Icon::SIZE_SMALL)->render()
             . '</button>'
             . '</p>';
     }

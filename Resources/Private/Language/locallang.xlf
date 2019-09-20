@@ -30,6 +30,18 @@
             <trans-unit id="reminder.edit.error" xml:space="preserve">
                 <source>Reminder could not be edited</source>
             </trans-unit>
+            <trans-unit id="reminder.list.message" xml:space="preserve">
+                <source>Message</source>
+            </trans-unit>
+            <trans-unit id="reminder.list.date" xml:space="preserve">
+                <source>Date</source>
+            </trans-unit>
+            <trans-unit id="reminder.list.edit" xml:space="preserve">
+                <source>Edit</source>
+            </trans-unit>
+            <trans-unit id="reminder.list.delete" xml:space="preserve">
+                <source>Delete</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>
