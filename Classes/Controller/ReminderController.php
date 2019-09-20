@@ -116,12 +116,12 @@ class ReminderController {
                         . (new \DateTime($result['datetime']))->format('r')
                     . '</td>'
                     . '<td>'
-                        . '<a href="#" class="reminder-edit" data-uid="' . (int) $reminder['uid'] . '">'
+                        . '<a href="#" class="reminder-edit" data-uid="' . (int) $result['uid'] . '">'
                             . $iconFactory->getIcon('actions-open', Icon::SIZE_SMALL)->render()
                         . '</a>'
                     . '</td>'
                     . '<td>'
-                        . '<a href="#" class="reminder-delete" data-uid="' . (int) $reminder['uid'] . '">'
+                        . '<a href="#" class="reminder-delete" data-uid="' . (int) $result['uid'] . '">'
                             . $iconFactory->getIcon('actions-delete', Icon::SIZE_SMALL)->render()
                         . '</a>'
                     . '</td>'
@@ -148,7 +148,7 @@ class ReminderController {
             $this->connection->delete(
                 'tx_oclock_reminder',
                 [
-                    'uid' => $request->getQueryParams()['reminder']
+                    'uid' => $request->getParsedBody()['reminder']
                 ]
             );
             $response = new JsonResponse(

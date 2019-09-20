@@ -106,7 +106,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                                 ajaxCallback: function() {
                                     Modal.currentModal.find(reminder.selectorDelete).on('click', function(event) {
                                         event.preventDefault();
-                                        let reminder = $(event.target);
+                                        let deleteButton = $(event.currentTarget);
                                         Modal.confirm(
                                             TYPO3.lang['oclock/reminder.delete.title'],
                                             TYPO3.lang['oclock/reminder.delete.message'],
@@ -127,7 +127,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                                                         $.ajax({
                                                             method: 'DELETE',
                                                             data: {
-                                                                'reminder': reminder.data('uid')
+                                                                'reminder': deleteButton.data('uid')
                                                             },
                                                             url: TYPO3.settings.ajaxUrls['oclock/reminder_delete']
                                                         }).done(function(response) {
@@ -148,7 +148,6 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                                                                 textStatus
                                                             );
                                                         }).always(function() {
-                                                            Modal.dismiss();
                                                             Modal.dismiss();
                                                         });
                                                     }
