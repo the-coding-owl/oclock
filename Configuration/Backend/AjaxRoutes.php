@@ -16,4 +16,8 @@ return [
         'path' => '/oclock/reminder/list',
         'target' => TheCodingOwl\Oclock\Controller\ReminderController::class . '::listAction'
     ],
+    'oclock/reminder_get' => [
+        'path' => '/oclock/reminder/get',
+        'target' => TheCodingOwl\Oclock\Controller\ReminderController::class . '::getAction'
+    ]
 ];

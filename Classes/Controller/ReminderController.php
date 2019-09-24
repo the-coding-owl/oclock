@@ -127,6 +127,15 @@ class ReminderController {
                     . '</td>'
                 . '</tr>';
             }
+            if (count($results) === 0) {
+                $content .= '<tr>'
+                    . '<td colspan="4">'
+                        . $this->languageService->sL(
+                            'LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.list.empty'
+                        )
+                    . '</td>'
+                .'</tr>';
+            }
             $content .= '</tbody>'
                 . '</table>';
             $response = new HtmlResponse($content);
@@ -148,7 +157,8 @@ class ReminderController {
             $this->connection->delete(
                 'tx_oclock_reminder',
                 [
-                    'uid' => $request->getParsedBody()['reminder']
+                    'uid' => $request->getParsedBody()['reminder'],
+                    'user' => $GLOBALS['BE_USER']->user['uid']
                 ]
             );
             $response = new JsonResponse(
@@ -168,6 +178,52 @@ class ReminderController {
             );
         }
         return $response;
+    }
+
+    /**
+     * Get a reminder
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+    public function getAction(ServerRequestInterface $request): ResponseInterface {
+        try {
+            $queryBuilder = $this->connection->createQueryBuilder();
+            $reminder = $queryBuilder->select('*')
+                ->from('tx_oclock_reminder')
+                ->where(
+                    $queryBuilder->expr()->eq(
+                        'user',
+                        $queryBuilder->createNamedParameter($GLOBALS['BE_USER']->user['uid'], Connection::PARAM_INT)
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'uid',
+                        $queryBuilder->createNamedParameter($request->getQueryParams()['reminder'], Connection::PARAM_INT)
+                    )
+                )
+                ->setMaxResults(1)->execute()->fetch();
+            if (!$reminder) {
+                $response = new JsonResponse([
+                    'success' => FALSE,
+                    'message' => $this->languageService->sL(
+                        'LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.get.error'
+                    )
+                ]);
+            } else {
+                $response = new JsonResponse([
+                    'success' => TRUE,
+                    'message' => '',
+                    'reminder' => $reminder
+                ]);
+            }
+        } catch (\Exception $e) {
+           $response = new JsonResponse([
+               'success' => FALSE,
+               'message' => $e->getMessage()
+           ]);
+       }
+
+       return $response;
     }
 
     /**
@@ -192,8 +248,8 @@ class ReminderController {
                 );
             $params = $request->getParsedBody();
             $queryBuilder->set('message', $params['message'])
-                ->set('datetime', (new \DateTime($params['datetime']))->format('Y--m-d H:i:s'));
-            $changed = $queryBuilder->execute();
+                ->set('datetime', (new \DateTime($params['datetime']))->format('Y-m-d H:i:s'));
+            $changes = $queryBuilder->execute();
             if ($changes === 0) {
                 $response = new JsonResponse([
                     'success' => FALSE,
@@ -205,7 +261,7 @@ class ReminderController {
                 $response = new JsonResponse([
                     'success' => TRUE,
                     'message' => $this->languageService->sL(
-                        'LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.edit.error'
+                        'LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.edit.success'
                     )
                 ]);
             }

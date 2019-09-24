@@ -6,11 +6,20 @@
             <trans-unit id="oclock/reminder.add.title" xml:space="preserve">
                 <source>Add new reminder</source>
             </trans-unit>
+			<trans-unit id="oclock/reminder.edit.title" xml:space="preserve">
+                <source>Change reminder</source>
+            </trans-unit>
             <trans-unit id="oclock/reminder.add.successfull" xml:space="preserve">
                 <source>Reminder successfully added</source>
             </trans-unit>
             <trans-unit id="oclock/reminder.add.error" xml:space="preserve">
                 <source>Reminder could not be added</source>
+            </trans-unit>
+			<trans-unit id="oclock/reminder.edit.successfull" xml:space="preserve">
+                <source>Reminder successfully changed</source>
+            </trans-unit>
+            <trans-unit id="oclock/reminder.edit.error" xml:space="preserve">
+                <source>Reminder could not be changed</source>
             </trans-unit>
             <trans-unit id="oclock/reminder.button.save" xml:space="preserve">
                 <source>Save</source>
@@ -37,7 +46,7 @@
                 <source>Reminder could not be deleted</source>
             </trans-unit>
             <trans-unit id="oclock/reminder.list.title" xml:space="preserve">
-                <source>List reminders</source>
+                <source>Reminder list</source>
             </trans-unit>
 		</body>
 	</file>

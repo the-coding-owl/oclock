@@ -42,6 +42,18 @@
             <trans-unit id="reminder.list.delete" xml:space="preserve">
                 <source>Delete</source>
             </trans-unit>
+            <trans-unit id="reminder.list.empty" xml:space="preserve">
+                <source>No reminders found</source>
+            </trans-unit>
+            <trans-unit id="reminder.edit.error" xml:space="preserve">
+                <source>Error while changing reminder</source>
+            </trans-unit>
+            <trans-unit id="reminder.edit.success" xml:space="preserve">
+                <source>Reminder successfully changed</source>
+            </trans-unit>
+            <trans-unit id="reminder.get.error" xml:space="preserve">
+                <source>Fetching reminder failed</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>
