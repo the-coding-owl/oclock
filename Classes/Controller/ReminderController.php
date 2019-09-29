@@ -243,7 +243,7 @@ class ReminderController {
                     ),
                     $queryBuilder->expr()->eq(
                         'uid',
-                        $queryBuilder->createNamedParameter($request->getQueryParams()['reminder'], Connection::PARAM_INT)
+                        $queryBuilder->createNamedParameter($request->getParsedBody()['reminder'], Connection::PARAM_INT)
                     )
                 );
             $params = $request->getParsedBody();

@@ -241,6 +241,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                             if (response.success) {
                                 currentModal.find('[name="message"]').val(response.reminder.message);
                                 currentModal.find('[name="datetime"]').val(response.reminder.datetime);
+                                currentModal.find('form').append('<input type="hidden" name="reminder" value="' + response.reminder.uid + '" />');
                             } else {
                                 Notification.error(
                                     TYPO3.lang['oclock/reminder.edit.error'],
