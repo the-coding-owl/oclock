@@ -108,7 +108,7 @@ class ReminderController {
                 . '</thead>'
                 . '<tbody>';
             foreach($results as $result) {
-                $content .= '<tr>'
+                $content .= '<tr data-reminder="' . $result['uid'] . '">'
                     . '<td class="col-responsive">'
                         . $result['message']
                     . '</td>'

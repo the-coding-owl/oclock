@@ -64,7 +64,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                             active: true,
                             btnClass: 'btn-default',
                             trigger: function () {
-                                reminder.addModal.dismiss();
+                                reminder.addModal.modal('hide');
                             }
                         }, {
                             text: TYPO3.lang['oclock/reminder.button.save'],
@@ -92,7 +92,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                                         textStatus
                                     );
                                 }).always(function() {
-                                    reminder.addModal.dismiss();
+                                    reminder.addModal.modal('hide');
                                 });
                             }
                         }
@@ -114,7 +114,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                             active: true,
                             btnClass: 'btn-default',
                             trigger: function () {
-                                reminder.listModal.dismiss();
+                                reminder.listModal.modal('hide');
                             }
                         }
                     ],
@@ -145,7 +145,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                             active: true,
                             btnClass: 'btn-default',
                             trigger: function () {
-                                reminder.deleteModal.dismiss();
+                                reminder.deleteModal.modal('hide');
                             }
                         },{
                             text: TYPO3.lang['oclock/reminder.delete.button'],
@@ -176,9 +176,8 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                                         textStatus
                                     );
                                 }).always(function() {
-                                    reminder.deleteModal.dismiss();
-                                    reminder.listModal.dismiss();
-                                    reminder.openListModal();
+                                    reminder.deleteModal.modal('hide');
+                                    reminder.listModal.find('[data-reminder="' + reminderId + '"]').remove();
                                 });
                             }
                         }
@@ -197,7 +196,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                             active: true,
                             btnClass: 'btn-default',
                             trigger: function () {
-                                reminder.editModal.dismiss();
+                                reminder.editModal.modal('hide');
                             }
                         },
                         {
@@ -226,7 +225,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                                         textStatus
                                     );
                                 }).always(function() {
-                                    reminder.editModal.dismiss();
+                                    reminder.editModal.modal('hide');
                                 });
                             }
                         }
@@ -249,8 +248,7 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                                 );
                             }
                         }).fail(function( jqXHR, textStatus ) {
-                            // We cannot dismiss the modal at this point, because it is not fully initialised yet
-                            //currentModal.dismiss();
+                            reminder.editModal.modal('hide');
                             Notification.error(
                                 TYPO3.lang['oclock/reminder.edit.error'],
                                 textStatus
