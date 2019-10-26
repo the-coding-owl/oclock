@@ -32,7 +32,6 @@
     }
   },
   "replace": {
-    "oclock": "self.version",
     "typo3-ter/oclock": "self.version"
   }
 }
