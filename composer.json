@@ -12,12 +12,12 @@
   ],
   "support": {
     "issues": "https://github.com/the-coding-owl/oclock/issues",
-    "source": "https://github.com/the-coding-owl/oclock/issues"
+    "source": "https://github.com/the-coding-owl/oclock"
   },
   "license": "GPL-3.0-or-later",
   "require": {
-    "typo3/cms-core": "^9.5.9",
-    "typo3/cms-backend": "^9.5.9"
+    "typo3/cms-core": "^9.5.9 || ^10.1.0",
+    "typo3/cms-backend": "^9.5.9 || ^10.1.0"
   },
   "authors": [
     {
