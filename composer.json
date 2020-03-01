@@ -16,8 +16,8 @@
   },
   "license": "GPL-3.0-or-later",
   "require": {
-    "typo3/cms-core": "^9.5.9 || ^10.1.0 || ^10.2.0",
-    "typo3/cms-backend": "^9.5.9 || ^10.1.0 || ^20.2.0"
+    "typo3/cms-core": "^9.5.9 || ^10.1.0",
+    "typo3/cms-backend": "^9.5.9 || ^10.1.0"
   },
   "authors": [
     {
