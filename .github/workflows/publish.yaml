@@ -1,0 +1,19 @@
+name: Publish on TER
+
+on: 
+  release:
+    types: [published]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: the-coding-owl/action-typo3-extension-repository-upload@master
+      with: 
+        secret_username: ${{ secrets.USERNAME }}
+        secret_password: ${{ secrets.PASSWORD }}
+        extensionkey: 'oclock'
+        uploadmessage: ${{ github.event.release.body }}
