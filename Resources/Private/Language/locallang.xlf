@@ -15,6 +15,12 @@
             <trans-unit id="toolbar.time.browser" xml:space="preserve">
                 <source>Browser Time</source>
             </trans-unit>
+            <trans-unit id="widgets.clock.title" xml:space="preserve">
+                <source>Clock</source>
+            </trans-unit>
+            <trans-unit id="widgets.clock.description" xml:space="preserve">
+                <source>Clock</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>
