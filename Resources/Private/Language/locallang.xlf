@@ -16,10 +16,10 @@
                 <source>Browser Time</source>
             </trans-unit>
             <trans-unit id="widgets.clock.title" xml:space="preserve">
-                <source>Clock</source>
+                <source>Display a clock with server time</source>
             </trans-unit>
             <trans-unit id="widgets.clock.description" xml:space="preserve">
-                <source>Clock</source>
+                <source>Display a clock with the time and timezone on the server</source>
             </trans-unit>
 		</body>
 	</file>

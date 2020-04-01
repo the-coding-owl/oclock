@@ -1,6 +1,12 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:layout name="Widget/Default" />
 <f:section name="main">
-
+    <div
+        class="tx_oclock"
+        data-time="{f:format.date(format:'r', date:'{date}')}"
+        data-timezone="{f:format.date(format:'e', date: '{date}')}">
+        <span  class="server-timezone"><f:format.date format="e">{date}</f:format.date></span>
+        <span class="server-time"></span>
+    </div>
 </f:section>
 </html>
