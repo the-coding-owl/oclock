@@ -4,6 +4,7 @@ namespace TheCodingOwl\Oclock\Widgets;
 use TYPO3\CMS\Dashboard\Widgets\AbstractWidget;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 /**
  * The widget for a clock
@@ -56,14 +57,34 @@ class ClockWidget extends AbstractWidget {
      */
     protected function initializeView(): void {
         parent::initializeView();
-        $this->view->setTemplateRootPaths(['EXT:oclock/Resources/Private/Templates/']);
-        $this->view->setPartialRootPaths(['EXT:oclock/Resources/Private/Partials/']);
-        $this->view->setLayoutRootPaths(['EXT:oclock/Resources/Private/Layout/']);
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('oclock');
+        $rootPaths = [
+            'template' => [
+                'EXT:oclock/Resources/Private/Templates/'
+            ],
+            'partial' => [
+                'EXT:oclock/Resources/Private/Partials/'
+            ],
+            'layout' => [
+                'EXT:oclock/Resources/Private/Layout/'
+            ]
+        ];
+        if(!empty($extConf['dashboard']['additionalTemplateRootPath'])) {
+            $templateRootPaths['template'][] = $extConf['dashboard']['additionalTemplateRootPath'];
+        }
+        if(!empty($extConf['dashboard']['additionalPartialRootPath'])) {
+            $templateRootPaths['partial'][] = $extConf['dashboard']['additionalPartialRootPath'];
+        }
+        if(!empty($extConf['dashboard']['additionalLayoutRootPath'])) {
+            $templateRootPaths['layout'][] = $extConf['dashboard']['additionalLayoutRootPath'];
+        }
+        $this->view->setTemplateRootPaths($rootPaths['template']);
+        $this->view->setPartialRootPaths($rootPaths['partial']);
+        $this->view->setLayoutRootPaths($rootPaths['layout']);
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
         $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
-        $pageRenderer->addCssFile('EXT:oclock/Resources/Public/Stylesheets/dashboard.css');
-        $pageRenderer->addCssLibrary('https://fontlibrary.org/face/segment14', 'stylesheet', 'screen', '', false);
+        $pageRenderer->addCssFile($extConf['dashboard']['css']);
     }
 
     /**

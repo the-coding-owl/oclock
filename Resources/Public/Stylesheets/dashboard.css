@@ -1,5 +1,10 @@
-.server-time {
-    font-family: 'Segment14Regular';
+@import url('https://fontlibrary.org/face/teleindicadores-1') screen;
+
+.tx_oclock {
+    font-family: 'Teleindicadores1Regular';
     font-weight: normal;
     font-style: normal;
+    font-size: 50px;
+    text-align: center;
+    line-height: 1;
 }

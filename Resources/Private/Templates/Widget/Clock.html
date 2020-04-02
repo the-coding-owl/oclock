@@ -5,8 +5,8 @@
         class="tx_oclock"
         data-time="{f:format.date(format:'r', date:'{date}')}"
         data-timezone="{f:format.date(format:'e', date: '{date}')}">
-        <span  class="server-timezone"><f:format.date format="e">{date}</f:format.date></span>
-        <span class="server-time"></span>
+        <span class="server-date"><f:format.date format="d.M Y">{date}</f:format.date></span><br />
+        <span class="server-time"></span>&nbsp;<span  class="server-timezone"><f:format.date format="e">{date}</f:format.date></span>
     </div>
 </f:section>
 </html>

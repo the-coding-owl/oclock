@@ -235,7 +235,7 @@ define(['TYPO3/CMS/Oclock/Luxon'], function(luxon){
             if (mutation.type === 'childList' && mutation.target.classList.contains('widget-content') && mutation.addedNodes.length > 0) {
                 for (let node of mutation.addedNodes) {
                     if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('tx-thecodingowl-oclock')) {
-                        for (let childNode in node.childNodes) {
+                        for (let childNode of node.childNodes) {
                             if (childNode.nodeType === Node.ELEMENT_NODE && childNode.classList.contains('tx_oclock')) {
                                 if (!Clock.isInitialized(childNode)) {
                                     Clock.instances.push(new Clock(childNode));
