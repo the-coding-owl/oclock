@@ -9,8 +9,7 @@
         "amd": true
     },
     "extends": [
-        "eslint:recommended",
-        "airbnb-base"
+        "eslint:recommended"
     ],
     "rules": {
         "indent": ["error", 4],
