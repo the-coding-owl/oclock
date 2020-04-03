@@ -1,3 +1,5 @@
+![eslint](https://github.com/the-coding-owl/oclock/workflows/eslint/badge.svg)
+
 # Introduction
 This extension adds a simple clock to the TYPO3 backend, which can be used to see what time and timezone it is on the server and in the browser.
 
