@@ -1,4 +1,4 @@
-name: eslint
+name: lint
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,3 +14,6 @@ jobs:
 
     - name: ESLint Action
       uses: stefanoeb/eslint-action@1.0.2
+
+    - name: CSSLint Action
+      run: ./node_modules/.bin/csslint
