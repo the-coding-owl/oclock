@@ -15,6 +15,15 @@
             <trans-unit id="toolbar.time.browser" xml:space="preserve">
                 <source>Browser Time</source>
             </trans-unit>
+            <trans-unit id="widgets.clock.title" xml:space="preserve">
+                <source>Display a clock with server time</source>
+            </trans-unit>
+            <trans-unit id="widgets.clock.description" xml:space="preserve">
+                <source>Display a clock with the time and timezone on the server</source>
+            </trans-unit>
+            <trans-unit id="dashboard.server-time.title" xml:space="preserve">
+                <source>Server Time</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -1,0 +1,7 @@
+services:
+    TheCodingOwl\Oclock\Widgets\ClockWidget:
+        arguments: ['theCodingOwlClock']
+        tags:
+            - name: dashboard.widget
+              identifier: theCodingOwlClock
+              widgetGroups: 'systemInfo'
