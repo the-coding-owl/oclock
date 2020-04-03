@@ -1,10 +1,25 @@
-define(['TYPO3/CMS/Oclock/Luxon'], function(luxon){
+class Clock {
+    static selector = '.tx_oclock';
+
+    static serverTimeSelector = '.server-time';
+
+    static browserTimeSelector = '.browser-time';
+
+    static serverTimeZoneSelector = '.server-timezone';
+
+    static browserTimeZoneSelector = '.browser-timezone';
+
+    static interval = 1000;
+
+    static instances = [];
+
     /**
      * Constructor of a Clock object
      *
      * @param {Node} container The Node that represents the clock container
+     * @param {Luxon} luxon The luxon date library
      */
-    let Clock = function (container) {
+    constructor(container, luxon) {
         this.container = container;
         this.serverTimeList = [];
         let elementList = container.querySelectorAll(Clock.serverTimeSelector);
@@ -48,60 +63,12 @@ define(['TYPO3/CMS/Oclock/Luxon'], function(luxon){
         this.initializeClocks();
 
         this.initialized = true;
-    };
-    Clock.selector = '.tx_oclock';
-    Clock.serverTimeSelector = '.server-time';
-    Clock.browserTimeSelector = '.browser-time';
-    Clock.serverTimeZoneSelector = '.server-timezone';
-    Clock.browserTimeZoneSelector = '.browser-timezone';
-    Clock.interval = 1000;
-    Clock.instances = [];
-    /**
-     * Initialize the all Clock elements
-     */
-    Clock.init = function() {
-        let containers = document.querySelectorAll(Clock.selector);
-        for(let container of containers) {
-            if (!this.isInitialized(container)) {
-                this.instances.push(new Clock(container));
-            }
-        }
-    };
-    /**
-     * Check if the container is initialized already
-     *
-     * @param {Node} container The container to check
-     * @return {Boolean}
-     */
-    Clock.isInitialized = function(container) {
-        for (let instance of this.instances) {
-            if (instance.isInitialized(container)) {
-                return true;
-            }
-        }
-        return false;
-    };
-    /**
-     * Create the object with the spans containing the times
-     *
-     * @return {Object}
-     */
-    Clock.createTimeSpans = function() {
-        let spans = {
-            hour: document.createElement('SPAN'),
-            minute: document.createElement('SPAN'),
-            second: document.createElement('SPAN')
-        };
-        spans.hour.classList.add('hour');
-        spans.minute.classList.add('minute');
-        spans.second.classList.add('second');
-        return spans;
-    };
+    }
 
     /**
      * Initialize the TimeZones
      */
-    Clock.prototype.initializeTimeZones = function() {
+    initializeTimeZones() {
         if (this.serverTimeZoneList.length > 0) {
             for (let serverTimeZone of this.serverTimeZoneList) {
                 serverTimeZone.element.innerText = this.serverTime.offsetNameLong;
@@ -113,12 +80,12 @@ define(['TYPO3/CMS/Oclock/Luxon'], function(luxon){
                 browserTimeZone.element.innerText = this.browserTime.offsetNameLong;
             }
         }
-    };
+    }
 
     /**
      * Initialize the Clocks
      */
-    Clock.prototype.initializeClocks = function() {
+    initializeClocks() {
         if (this.serverTimeList.length > 0) {
             for (let serverTime of this.serverTimeList) {
                 serverTime.spans = Clock.createTimeSpans();
@@ -138,107 +105,156 @@ define(['TYPO3/CMS/Oclock/Luxon'], function(luxon){
                 this.startClock(browserTime);
             }
         }
-    };
+    }
 
     /**
      * Update the times
      *
      * @param {Object} timeObject An object containing the timings
      */
-    Clock.prototype.updateTime = function(timeObject) {
+    updateTime(timeObject) {
         let hours = timeObject.time.hour,
             minutes = timeObject.time.minute,
             seconds = timeObject.time.second;
         timeObject.spans.hour.innerText = hours < 10 ? '0' + hours : hours;
         timeObject.spans.minute.innerText = minutes < 10 ? '0' + minutes : minutes;
         timeObject.spans.second.innerText = seconds < 10 ? '0' + seconds : seconds;
-    };
+    }
 
     /**
      * Append the time spans to the element
      *
      * @param {Object} timeObject The object containing the time, element and spans
      */
-    Clock.prototype.appendTimes = function(timeObject) {
+    appendTimes(timeObject) {
         timeObject.element.appendChild(timeObject.spans.hour);
         timeObject.element.appendChild(document.createTextNode(':'));
         timeObject.element.appendChild(timeObject.spans.minute);
         timeObject.element.appendChild(document.createTextNode(':'));
         timeObject.element.appendChild(timeObject.spans.second);
-    };
+    }
 
     /**
      * Start the clock of the given time object
      *
      * @param {Object} timeObject The object containing the time, element and spans
      */
-    Clock.prototype.startClock = function(timeObject) {
+    startClock(timeObject) {
         let instance = this;
         timeObject.interval = setInterval(function(){
             timeObject.time = timeObject.time.plus({seconds: 1});
             instance.updateTime(timeObject);
         }, Clock.interval);
-    };
+    }
 
     /**
      * Stop the clock of the given time object
      *
      * @param {Object} timeObject The object containing the time, element and spans
      */
-    Clock.prototype.stopClock = function(timeObject) {
+    stopClock(timeObject) {
         clearInterval(timeObject.interval);
-    };
+    }
 
     /**
      * @return {Array}
      */
-    Clock.prototype.getServerTimes = function() {
+    getServerTimes() {
         return this.serverTimeList;
-    };
+    }
 
     /**
      * @return {Array}
      */
-    Clock.prototype.getBrowserTimes = function() {
+    getBrowserTimes() {
         return this.browserTimeList;
-    };
+    }
 
     /**
      * @return {Array}
      */
-    Clock.prototype.getServerTimeZones = function() {
+    getServerTimeZones() {
         return this.serverTimeZoneList;
-    };
+    }
 
     /**
      * @return {Array}
      */
-    Clock.prototype.getBrowserTimeZones = function() {
+    getBrowserTimeZones() {
         return this.browserTimeZoneList;
-    };
+    }
 
     /**
      * @return {Boolean}
      */
-    Clock.prototype.isInitialized = function(container) {
+    isInitialized(container) {
         if (this.container === container && this.initialized === true) {
             return true;
         }
 
         return false;
-    };
+    }
 
-    Clock.init();
+    /**
+     * Initialize the all Clock elements
+     *
+     * @param {Luxon} luxon The luxon date library
+     */
+    static init(luxon) {
+        let containers = document.querySelectorAll(Clock.selector);
+        for (let container of containers) {
+            if (!this.isInitialized(container)) {
+                this.instances.push(new Clock(container, luxon));
+            }
+        }
+    }
 
-    var observer = new MutationObserver(function(mutations, observer) {
-        for(let mutation of mutations) {
+    /**
+     * Check if the container is initialized already
+     *
+     * @param {Node} container The container to check
+     * @return {Boolean}
+     */
+    static isInitialized(container) {
+        for (let instance of Clock.instances) {
+            if (instance.isInitialized(container)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Create the object with the spans containing the times
+     *
+     * @return {Object}
+     */
+    static createTimeSpans() {
+        let spans = {
+            hour: document.createElement('SPAN'),
+            minute: document.createElement('SPAN'),
+            second: document.createElement('SPAN')
+        };
+        spans.hour.classList.add('hour');
+        spans.minute.classList.add('minute');
+        spans.second.classList.add('second');
+        return spans;
+    }
+}
+
+define(['TYPO3/CMS/Oclock/Luxon'], function (luxon) {
+    Clock.init(luxon);
+
+    /*eslint-disable max-depth*/
+    const observer = new MutationObserver(function(mutations) {
+        for (let mutation of mutations) {
             if (mutation.type === 'childList' && mutation.target.classList.contains('widget-content') && mutation.addedNodes.length > 0) {
                 for (let node of mutation.addedNodes) {
                     if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('tx-thecodingowl-oclock')) {
                         for (let childNode of node.childNodes) {
                             if (childNode.nodeType === Node.ELEMENT_NODE && childNode.classList.contains('tx_oclock')) {
                                 if (!Clock.isInitialized(childNode)) {
-                                    Clock.instances.push(new Clock(childNode));
+                                    Clock.instances.push(new Clock(childNode, luxon));
                                 }
                             }
                         }
@@ -247,6 +263,7 @@ define(['TYPO3/CMS/Oclock/Luxon'], function(luxon){
             }
         }
     });
+    /*eslint-enable max-depth*/
 
     observer.observe(document, {
         subtree: true,

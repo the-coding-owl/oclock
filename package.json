@@ -4,6 +4,7 @@
   "description": "This extension provides a clock in the TYPO3 Backend and gives a few neat functions",
   "dependencies": {},
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "eslint": "^6.8.0"
   },
   "repository": {
