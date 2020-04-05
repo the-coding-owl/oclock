@@ -69,14 +69,14 @@ class ClockWidget extends AbstractWidget {
                 'EXT:oclock/Resources/Private/Layout/'
             ]
         ];
-        if(!empty($extConf['dashboard']['additionalTemplateRootPath'])) {
-            $templateRootPaths['template'][] = $extConf['dashboard']['additionalTemplateRootPath'];
+        if(!empty($extConf['additionalTemplateRootPath'])) {
+            $templateRootPaths['template'][] = $extConf['additionalTemplateRootPath'];
         }
-        if(!empty($extConf['dashboard']['additionalPartialRootPath'])) {
-            $templateRootPaths['partial'][] = $extConf['dashboard']['additionalPartialRootPath'];
+        if(!empty($extConf['additionalPartialRootPath'])) {
+            $templateRootPaths['partial'][] = $extConf['additionalPartialRootPath'];
         }
-        if(!empty($extConf['dashboard']['additionalLayoutRootPath'])) {
-            $templateRootPaths['layout'][] = $extConf['dashboard']['additionalLayoutRootPath'];
+        if(!empty($extConf['additionalLayoutRootPath'])) {
+            $templateRootPaths['layout'][] = $extConf['additionalLayoutRootPath'];
         }
         $this->view->setTemplateRootPaths($rootPaths['template']);
         $this->view->setPartialRootPaths($rootPaths['partial']);

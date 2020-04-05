@@ -4,17 +4,18 @@ namespace TheCodingOwl\Oclock\Toolbar;
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3Fluid\Fluid\View\ViewInterface;
 
 /**
  * Clock toolbar class
  */
 class Clock implements ToolbarItemInterface {
     /**
-     * @var LanguageService
+     * @var ViewInterface
      */
-    protected $languageService;
-
+    protected $view;
+    
     /**
      * Constructs the Clock toolbar item
      */
@@ -22,7 +23,32 @@ class Clock implements ToolbarItemInterface {
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
         $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
-        $this->languageService = GeneralUtility::makeInstance(LanguageService::class);
+        $this->view = GeneralUtility::makeInstance(StandaloneView::class);
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('oclock');
+        $rootPaths = [
+            'template' => [
+                'EXT:oclock/Resources/Private/Templates/'
+            ],
+            'partial' => [
+                'EXT:oclock/Resources/Private/Partials/'
+            ],
+            'layout' => [
+                'EXT:oclock/Resources/Private/Layout/'
+            ]
+        ];
+        if(!empty($extConf['additionalTemplateRootPath'])) {
+            $templateRootPaths['template'][] = $extConf['additionalTemplateRootPath'];
+        }
+        if(!empty($extConf['additionalPartialRootPath'])) {
+            $templateRootPaths['partial'][] = $extConf['additionalPartialRootPath'];
+        }
+        if(!empty($extConf['additionalLayoutRootPath'])) {
+            $templateRootPaths['layout'][] = $extConf['additionalLayoutRootPath'];
+        }
+        $this->view->setTemplateRootPaths($rootPaths['template']);
+        $this->view->setPartialRootPaths($rootPaths['partial']);
+        $this->view->setLayoutRootPaths($rootPaths['layout']);
+        
     }
 
     /**
@@ -40,7 +66,8 @@ class Clock implements ToolbarItemInterface {
      * @return string
      */
     public function getItem(): string {
-        return '<span class="server-time"></span>';
+        $this->view->setTemplate('Toolbar/Item');
+        return $this->view->render();
     }
 
     /**
@@ -58,11 +85,9 @@ class Clock implements ToolbarItemInterface {
      * @return string
      */
     public function getDropDown(): string {
-        return '<p>' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.timezone.server') . ': <span  class="server-timezone">' . (new \DateTime())->format('e') . '</span></p>'
-            . '<p>' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.time.server') . ': <span class="server-time">' . '</span></p>'
-            . '<hr />'
-            . '<p>' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.timezone.browser') . ': <span class="browser-timezone"></span></p>'
-            . '<p>' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.time.browser') . ': <span class="browser-time"></span></p>';
+        $this->view->setTemplate('Toolbar/DropDown');
+        $this->view->assign('date', new \DateTime());
+        return $this->view->render();
     }
 
     /**
