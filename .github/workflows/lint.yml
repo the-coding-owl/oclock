@@ -16,4 +16,4 @@ jobs:
       uses: stefanoeb/eslint-action@1.0.2
 
     - name: CSSLint Action
-      run: ./node_modules/.bin/csslint
+      run: ./node_modules/.bin/csslint --exclude-list=node_modules .
