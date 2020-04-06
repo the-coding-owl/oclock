@@ -1,8 +1,8 @@
+# cat=basic; type=string; label=Additional layout root path for the oclock backend functions
+additionalLayoutRootPath =
+# cat=basic; type=string; label=Additional partial root path for the oclock backend functions
+additionalPartialRootPath =
+# cat=basic; type=string; label=Additional template root path for the oclock backend functions
+additionalTemplateRootPath =
 # cat=dashboard; type=string; label=Location of the CSS file for the oclock dashboard widget
 dashboard.css = EXT:oclock/Resources/Public/Stylesheets/dashboard.css
-# cat=dashboard; type=string; label=Additional layout root path for the oclock dashboard widget
-dashboard.additionalLayoutRootPath =
-# cat=dashboard; type=string; label=Additional partial root path for the oclock dashboard widget
-dashboard.additionalPartialRootPath =
-# cat=dashboard; type=string; label=Additional template root path for the oclock dashboard widget
-dashboard.additionalTemplateRootPath =

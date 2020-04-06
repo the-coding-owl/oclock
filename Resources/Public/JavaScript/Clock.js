@@ -1,17 +1,4 @@
 class Clock {
-    static selector = '.tx_oclock';
-
-    static serverTimeSelector = '.server-time';
-
-    static browserTimeSelector = '.browser-time';
-
-    static serverTimeZoneSelector = '.server-timezone';
-
-    static browserTimeZoneSelector = '.browser-timezone';
-
-    static interval = 1000;
-
-    static instances = [];
 
     /**
      * Constructor of a Clock object
@@ -241,6 +228,14 @@ class Clock {
         return spans;
     }
 }
+
+Clock.selector = '.tx_oclock';
+Clock.serverTimeSelector = '.server-time';
+Clock.browserTimeSelector = '.browser-time';
+Clock.serverTimeZoneSelector = '.server-timezone';
+Clock.browserTimeZoneSelector = '.browser-timezone';
+Clock.interval = 1000;
+Clock.instances = [];
 
 define(['TYPO3/CMS/Oclock/Luxon'], function (luxon) {
     Clock.init(luxon);
