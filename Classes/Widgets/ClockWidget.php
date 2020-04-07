@@ -7,6 +7,7 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Dashboard\Widgets\Interfaces\RequireJsModuleInterface;
 use TYPO3\CMS\Dashboard\Widgets\Interfaces\AdditionalCssInterface;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * The widget for a clock
