@@ -5,7 +5,6 @@ use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Fluid\View\StandaloneView;
-use TYPO3Fluid\Fluid\View\ViewInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 /**
@@ -13,19 +12,26 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
  */
 class Clock implements ToolbarItemInterface {
     /**
-     * @var ViewInterface
+     * @var StandaloneView
      */
     protected $view;
+    
+    /**
+     * @var PageRenderer
+     */
+    protected $pageRenderer;
     
     /**
      * Constructs the Clock toolbar item
      */
     public function __construct() {
-        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
-        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
+        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
+        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
         $this->view = GeneralUtility::makeInstance(StandaloneView::class);
-        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('oclock');
+        /** @var ExtensionConfiguration $extensionConfiguration */
+        $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+        $extConf = $extensionConfiguration->get('oclock');
         $rootPaths = [
             'template' => [
                 'EXT:oclock/Resources/Private/Templates/'

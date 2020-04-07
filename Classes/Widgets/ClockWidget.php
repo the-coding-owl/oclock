@@ -5,11 +5,13 @@ use TYPO3\CMS\Dashboard\Widgets\AbstractWidget;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Dashboard\Widgets\Interfaces\RequireJsModuleInterface;
+use TYPO3\CMS\Dashboard\Widgets\Interfaces\AdditionalCssInterface;
 
 /**
  * The widget for a clock
  */
-class ClockWidget extends AbstractWidget {
+class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, AdditionalCssInterface {
     /**
      * The title of the widget
      *
@@ -53,11 +55,27 @@ class ClockWidget extends AbstractWidget {
     protected $height = 1;
 
     /**
+     * The extension configuration array
+     *
+     * @var array
+     */
+    protected $extConf = [];
+    
+    /**
+     * Constructor of the ClockWidget
+     */
+    public function __construct() {
+      parent::__construct();
+      /** @var ExtensionConfiguration $extensionConfiguration */
+      $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+      $this->extConf = $extensionConfiguration->get('oclock');
+    }
+    
+    /**
      * Initialize the widget view
      */
     protected function initializeView(): void {
         parent::initializeView();
-        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('oclock');
         $rootPaths = [
             'template' => [
                 'EXT:oclock/Resources/Private/Templates/'
@@ -69,22 +87,18 @@ class ClockWidget extends AbstractWidget {
                 'EXT:oclock/Resources/Private/Layout/'
             ]
         ];
-        if(!empty($extConf['additionalTemplateRootPath'])) {
-            $templateRootPaths['template'][] = $extConf['additionalTemplateRootPath'];
+        if(!empty($this->extConf['additionalTemplateRootPath'])) {
+            $templateRootPaths['template'][] = $this->extConf['additionalTemplateRootPath'];
         }
-        if(!empty($extConf['additionalPartialRootPath'])) {
-            $templateRootPaths['partial'][] = $extConf['additionalPartialRootPath'];
+        if(!empty($this->extConf['additionalPartialRootPath'])) {
+            $templateRootPaths['partial'][] = $this->extConf['additionalPartialRootPath'];
         }
-        if(!empty($extConf['additionalLayoutRootPath'])) {
-            $templateRootPaths['layout'][] = $extConf['additionalLayoutRootPath'];
+        if(!empty($this->extConf['additionalLayoutRootPath'])) {
+            $templateRootPaths['layout'][] = $this->extConf['additionalLayoutRootPath'];
         }
         $this->view->setTemplateRootPaths($rootPaths['template']);
         $this->view->setPartialRootPaths($rootPaths['partial']);
         $this->view->setLayoutRootPaths($rootPaths['layout']);
-        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
-        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
-        $pageRenderer->addCssFile($extConf['dashboard']['css']);
     }
 
     /**
@@ -93,5 +107,22 @@ class ClockWidget extends AbstractWidget {
     public function renderWidgetContent(): string {
         $this->view->assign('date', new \DateTime());
         return $this->view->render();
+    }
+    
+    /**
+     * @return array
+     */
+    public function getCssFiles(): array {
+        return [$this->extConf['dashboard']['css']];
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequireJsModules(): array {
+        return [
+            'TYPO3/CMS/Oclock/Luxon',
+            'TYPO3/CMS/Oclock/Clock',
+        ];
     }
 }
