@@ -37,5 +37,8 @@
   },
   "replace": {
     "typo3-ter/oclock": "self.version"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^0.12.18"
   }
 }

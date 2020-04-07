@@ -1,0 +1,26 @@
+name: phpstan
+
+on:
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  analyse:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Composer install
+      uses: nick-zh/composer-php@0.2.0
+      with:
+        action: install
+
+    - name: Composer require typo3/cms-dashboard
+      uses: nick-zh/composer-php@0.2.0
+      with:
+        action: require typo3/cms-dashboard:^10.3.0
+
+    - name: Run phpstan
+      uses: franzliedke/gh-action-php@0.2.0
+      runs: php7.3 ./vendor/bin/phpstan analyse Classes
