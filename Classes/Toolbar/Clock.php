@@ -15,7 +15,7 @@ class Clock implements ToolbarItemInterface {
      * @var StandaloneView
      */
     protected $view;
-    use TYPO3\CMS\Fluid\View\StandaloneView;
+    
     /**
      * @var PageRenderer
      */

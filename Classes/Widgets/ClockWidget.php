@@ -127,7 +127,10 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
      * @return string[]
      */
     public function getCssFiles(): array {
-        return [$this->extConf['dashboard']['css']];
+        if (isset($this->extConf['dashboard']['css'])) {
+            return [$this->extConf['dashboard']['css']];
+        }
+        return ['EXT:oclock/Resources/Public/Stylesheets/dashboard.css'];
     }
 
     /**
