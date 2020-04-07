@@ -53,19 +53,28 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
      * @var int
      */
     protected $height = 1;
+    
+    /**
+     * The view object
+     *
+     * @var StandaloneView
+     */
+    protected $view;
 
     /**
      * The extension configuration array
      *
-     * @var array
+     * @var string[]
      */
     protected $extConf = [];
     
     /**
      * Constructor of the ClockWidget
+     *
+     * @param string $identifier
      */
-    public function __construct() {
-      parent::__construct();
+    public function __construct(string $identifier) {
+      parent::__construct($identifier);
       /** @var ExtensionConfiguration $extensionConfiguration */
       $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
       $this->extConf = $extensionConfiguration->get('oclock');
@@ -103,6 +112,8 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
 
     /**
      * Render the widget
+     *
+     * @return string
      */
     public function renderWidgetContent(): string {
         $this->view->assign('date', new \DateTime());
@@ -110,14 +121,18 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
     }
     
     /**
-     * @return array
+     * Get the CSS file array
+     *
+     * @return string[]
      */
     public function getCssFiles(): array {
         return [$this->extConf['dashboard']['css']];
     }
 
     /**
-     * @return array
+     * Get the requireJS modules
+     *
+     * @return string[]
      */
     public function getRequireJsModules(): array {
         return [

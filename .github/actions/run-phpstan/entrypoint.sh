@@ -1,3 +1,3 @@
 #!/bin/sh
 set -e
-exec php ./vendor/bin/phpstan analyse Classes --level max
+exec php ./vendor/bin/phpstan analyse

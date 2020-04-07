@@ -100,7 +100,7 @@ class Clock implements ToolbarItemInterface {
     /**
      * Get an array with additional attributes for the ToolbarItem container
      *
-     * @return array
+     * @return string[]
      */
     public function getAdditionalAttributes(): array {
         $currentDateTime = new \DateTime();
