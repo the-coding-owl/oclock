@@ -11,6 +11,18 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Cache composer dependencies
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-composer-dependencies
+      with:
+        path: ~/.composer/cache
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+            
     - name: Composer install
       uses: php-actions/composer@v1
 
