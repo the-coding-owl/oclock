@@ -15,9 +15,7 @@ jobs:
       uses: php-actions/composer@v1
 
     - name: Composer require typo3/cms-dashboard
-      uses: php-actions/composer@v1
-      with:
-        command: require typo3/cms-dashboard:^10.3.0
+      uses: ./.github/actions/install-typo3-cms-dashboard
 
     - name: Run phpstan
       uses: franzliedke/gh-action-php@0.2.0
