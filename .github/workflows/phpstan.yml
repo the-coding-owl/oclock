@@ -18,6 +18,4 @@ jobs:
       uses: ./.github/actions/install-typo3-cms-dashboard
 
     - name: Run phpstan
-      uses: franzliedke/gh-action-php@0.2.0
-      with:
-        runs: php7.3 ./vendor/bin/phpstan analyse Classes
+      uses: ./.github/actions/run-phpstan
