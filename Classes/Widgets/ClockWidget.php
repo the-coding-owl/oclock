@@ -65,7 +65,7 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
     /**
      * The extension configuration array
      *
-     * @var string[]
+     * @var array{dashboard:string[],additionalTemplateRootPath:string,additionalPartialRootPath:string,additionalLayoutRootPath:string}
      */
     protected $extConf = [];
     
