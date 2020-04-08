@@ -42,14 +42,17 @@ jobs:
     - name: Composer require typo3/cms-dashboard
       uses: ./.github/actions/install-typo3-cms-dashboard
   lint:
+    steps:
     - name: ESLint Action
       uses: stefanoeb/eslint-action@1.0.2
 
     - name: CSSLint Action
       run: ./node_modules/.bin/csslint --exclude-list=node_modules --exclude=public .
   phpstan:
+    steps:
     - name: Run phpstan
       uses: ./.github/actions/run-phpstan
   psr:
+    steps:
     - name: Run PHP_CodeSniffer
       uses: ./.github/actions/run-phpcs
