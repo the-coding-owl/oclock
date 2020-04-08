@@ -5,11 +5,14 @@ use TYPO3\CMS\Dashboard\Widgets\AbstractWidget;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Dashboard\Widgets\Interfaces\RequireJsModuleInterface;
+use TYPO3\CMS\Dashboard\Widgets\Interfaces\AdditionalCssInterface;
+use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * The widget for a clock
  */
-class ClockWidget extends AbstractWidget {
+class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, AdditionalCssInterface {
     /**
      * The title of the widget
      *
@@ -51,13 +54,45 @@ class ClockWidget extends AbstractWidget {
      * @var int
      */
     protected $height = 1;
+    
+    /**
+     * The view object
+     *
+     * @var StandaloneView
+     */
+    protected $view;
 
+    /**
+     * The extension configuration array
+     *
+     * @var array{dashboard:string[],additionalTemplateRootPath:string,additionalPartialRootPath:string,additionalLayoutRootPath:string}
+     */
+    protected $extConf = [
+      'dashboard' => [
+        'css' => 'EXT:oclock/Resources/Public/Stylesheets/dashboard.css'
+      ],
+      'additionalTemplateRootPath' => '',
+      'additionalPartialRootPath' => '',
+      'additionalLayoutRootPath' => ''
+    ];
+    
+    /**
+     * Constructor of the ClockWidget
+     *
+     * @param string $identifier
+     */
+    public function __construct(string $identifier) {
+      parent::__construct($identifier);
+      /** @var ExtensionConfiguration $extensionConfiguration */
+      $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+      $this->extConf = $extensionConfiguration->get('oclock');
+    }
+    
     /**
      * Initialize the widget view
      */
     protected function initializeView(): void {
         parent::initializeView();
-        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('oclock');
         $rootPaths = [
             'template' => [
                 'EXT:oclock/Resources/Private/Templates/'
@@ -69,29 +104,48 @@ class ClockWidget extends AbstractWidget {
                 'EXT:oclock/Resources/Private/Layout/'
             ]
         ];
-        if(!empty($extConf['additionalTemplateRootPath'])) {
-            $templateRootPaths['template'][] = $extConf['additionalTemplateRootPath'];
+        if(!empty($this->extConf['additionalTemplateRootPath'])) {
+            $templateRootPaths['template'][] = $this->extConf['additionalTemplateRootPath'];
         }
-        if(!empty($extConf['additionalPartialRootPath'])) {
-            $templateRootPaths['partial'][] = $extConf['additionalPartialRootPath'];
+        if(!empty($this->extConf['additionalPartialRootPath'])) {
+            $templateRootPaths['partial'][] = $this->extConf['additionalPartialRootPath'];
         }
-        if(!empty($extConf['additionalLayoutRootPath'])) {
-            $templateRootPaths['layout'][] = $extConf['additionalLayoutRootPath'];
+        if(!empty($this->extConf['additionalLayoutRootPath'])) {
+            $templateRootPaths['layout'][] = $this->extConf['additionalLayoutRootPath'];
         }
         $this->view->setTemplateRootPaths($rootPaths['template']);
         $this->view->setPartialRootPaths($rootPaths['partial']);
         $this->view->setLayoutRootPaths($rootPaths['layout']);
-        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
-        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
-        $pageRenderer->addCssFile($extConf['dashboard']['css']);
     }
 
     /**
      * Render the widget
+     *
+     * @return string
      */
     public function renderWidgetContent(): string {
         $this->view->assign('date', new \DateTime());
         return $this->view->render();
+    }
+    
+    /**
+     * Get the CSS file array
+     *
+     * @return string[]
+     */
+    public function getCssFiles(): array {
+        return [$this->extConf['dashboard']['css']];
+    }
+
+    /**
+     * Get the requireJS modules
+     *
+     * @return string[]
+     */
+    public function getRequireJsModules(): array {
+        return [
+            'TYPO3/CMS/Oclock/Luxon',
+            'TYPO3/CMS/Oclock/Clock',
+        ];
     }
 }
