@@ -1,4 +1,4 @@
-![lint](https://github.com/the-coding-owl/oclock/workflows/lint/badge.svg)
+![lint](https://github.com/the-coding-owl/oclock/workflows/lint/badge.svg)![phpstan](https://github.com/the-coding-owl/oclock/workflows/phpstan/badge.svg)![PSR](https://github.com/the-coding-owl/oclock/workflows/PSR/badge.svg)
 
 # Introduction
 This extension adds a simple clock to the TYPO3 backend, which can be used to see what time and timezone it is on the server and in the browser.
