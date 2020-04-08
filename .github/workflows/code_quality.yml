@@ -1,0 +1,55 @@
+name: code_quality
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache node modules
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm # npm cache files are stored in `~/.npm` on Linux/macOS
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+    - name: Node install
+      runs: npm install
+
+    - name: Cache composer dependencies
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-composer-dependencies
+      with:
+        path: ./.composer/cache
+        key: ${{ runner.os }}-build-${{ env.cache-name }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Composer install
+      uses: php-actions/composer@v1
+    
+    - name: Composer require typo3/cms-dashboard
+      uses: ./.github/actions/install-typo3-cms-dashboard
+  lint:
+    - name: ESLint Action
+      uses: stefanoeb/eslint-action@1.0.2
+
+    - name: CSSLint Action
+      run: ./node_modules/.bin/csslint --exclude-list=node_modules --exclude=public .
+  phpstan:
+    - name: Run phpstan
+      uses: ./.github/actions/run-phpstan
+  psr:
+    - name: Run PHP_CodeSniffer
+      uses: ./.github/actions/run-phpcs
