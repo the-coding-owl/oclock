@@ -67,7 +67,14 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
      *
      * @var array{dashboard:string[],additionalTemplateRootPath:string,additionalPartialRootPath:string,additionalLayoutRootPath:string}
      */
-    protected $extConf = [];
+    protected $extConf = [
+      'dashboard' => [
+        'css' => 'EXT:oclock/Resources/Public/Stylesheets/dashboard.css'
+      ],
+      'additionalTemplateRootPath' => '',
+      'additionalPartialRootPath' => '',
+      'additionalLayoutRootPath' => ''
+    ];
     
     /**
      * Constructor of the ClockWidget
@@ -127,10 +134,7 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
      * @return string[]
      */
     public function getCssFiles(): array {
-        if (isset($this->extConf['dashboard']['css'])) {
-            return [$this->extConf['dashboard']['css']];
-        }
-        return ['EXT:oclock/Resources/Public/Stylesheets/dashboard.css'];
+        return [$this->extConf['dashboard']['css']];
     }
 
     /**
