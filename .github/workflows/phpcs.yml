@@ -5,7 +5,7 @@ on:
     branches: [ master ]
     
 jobs:
-  analyse:
+  phpcs:
     runs-on: ubuntu-latest
 
     steps:
