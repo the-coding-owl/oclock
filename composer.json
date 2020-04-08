@@ -41,6 +41,7 @@
   "require-dev": {
     "phpstan/phpstan": "^0.12.18",
     "saschaegerer/phpstan-typo3": "^0.13.1",
-    "phpstan/extension-installer": "^1.0"
+    "phpstan/extension-installer": "^1.0",
+    "squizlabs/php_codesniffer": "^3.5"
   }
 }

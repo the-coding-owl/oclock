@@ -81,17 +81,19 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
      *
      * @param string $identifier
      */
-    public function __construct(string $identifier) {
-      parent::__construct($identifier);
-      /** @var ExtensionConfiguration $extensionConfiguration */
-      $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
-      $this->extConf = $extensionConfiguration->get('oclock');
+    public function __construct(string $identifier)
+    {
+        parent::__construct($identifier);
+        /** @var ExtensionConfiguration $extensionConfiguration */
+        $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+        $this->extConf = $extensionConfiguration->get('oclock');
     }
     
     /**
      * Initialize the widget view
      */
-    protected function initializeView(): void {
+    protected function initializeView(): void
+    {
         parent::initializeView();
         $rootPaths = [
             'template' => [
@@ -104,13 +106,13 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
                 'EXT:oclock/Resources/Private/Layout/'
             ]
         ];
-        if(!empty($this->extConf['additionalTemplateRootPath'])) {
+        if (!empty($this->extConf['additionalTemplateRootPath'])) {
             $templateRootPaths['template'][] = $this->extConf['additionalTemplateRootPath'];
         }
-        if(!empty($this->extConf['additionalPartialRootPath'])) {
+        if (!empty($this->extConf['additionalPartialRootPath'])) {
             $templateRootPaths['partial'][] = $this->extConf['additionalPartialRootPath'];
         }
-        if(!empty($this->extConf['additionalLayoutRootPath'])) {
+        if (!empty($this->extConf['additionalLayoutRootPath'])) {
             $templateRootPaths['layout'][] = $this->extConf['additionalLayoutRootPath'];
         }
         $this->view->setTemplateRootPaths($rootPaths['template']);
@@ -123,7 +125,8 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
      *
      * @return string
      */
-    public function renderWidgetContent(): string {
+    public function renderWidgetContent(): string
+    {
         $this->view->assign('date', new \DateTime());
         return $this->view->render();
     }
@@ -133,7 +136,8 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
      *
      * @return string[]
      */
-    public function getCssFiles(): array {
+    public function getCssFiles(): array
+    {
         return [$this->extConf['dashboard']['css']];
     }
 
@@ -142,7 +146,8 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
      *
      * @return string[]
      */
-    public function getRequireJsModules(): array {
+    public function getRequireJsModules(): array
+    {
         return [
             'TYPO3/CMS/Oclock/Luxon',
             'TYPO3/CMS/Oclock/Clock',
