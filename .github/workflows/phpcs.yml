@@ -1,4 +1,4 @@
-name: phpcs
+name: PSR
 
 on:
   pull_request:
