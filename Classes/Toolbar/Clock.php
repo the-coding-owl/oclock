@@ -24,8 +24,9 @@ class Clock implements ToolbarItemInterface {
     /**
      * Constructs the Clock toolbar item
      */
-    public function __construct() {
-      /** @var PageRenderer */
+    public function __construct() 
+    {
+        /** @var PageRenderer */
         $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
         $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
@@ -45,13 +46,13 @@ class Clock implements ToolbarItemInterface {
                 'EXT:oclock/Resources/Private/Layout/'
             ]
         ];
-        if(!empty($extConf['additionalTemplateRootPath'])) {
+        if (!empty($extConf['additionalTemplateRootPath'])) {
             $templateRootPaths['template'][] = $extConf['additionalTemplateRootPath'];
         }
-        if(!empty($extConf['additionalPartialRootPath'])) {
+        if (!empty($extConf['additionalPartialRootPath'])) {
             $templateRootPaths['partial'][] = $extConf['additionalPartialRootPath'];
         }
-        if(!empty($extConf['additionalLayoutRootPath'])) {
+        if (!empty($extConf['additionalLayoutRootPath'])) {
             $templateRootPaths['layout'][] = $extConf['additionalLayoutRootPath'];
         }
         $this->view->setTemplateRootPaths($rootPaths['template']);
@@ -65,8 +66,9 @@ class Clock implements ToolbarItemInterface {
      *
      * @return bool
      */
-    public function checkAccess(): bool {
-        return TRUE;
+    public function checkAccess(): bool 
+    {
+        return true;
     }
 
     /**
@@ -74,7 +76,8 @@ class Clock implements ToolbarItemInterface {
      *
      * @return string
      */
-    public function getItem(): string {
+    public function getItem(): string 
+    {
         $this->view->setTemplate('Toolbar/Item');
         return $this->view->render();
     }
@@ -84,8 +87,9 @@ class Clock implements ToolbarItemInterface {
      *
      * @return bool
      */
-    public function hasDropDown(): bool {
-        return TRUE;
+    public function hasDropDown(): bool
+    {
+        return true;
     }
 
     /**
@@ -93,7 +97,8 @@ class Clock implements ToolbarItemInterface {
      *
      * @return string
      */
-    public function getDropDown(): string {
+    public function getDropDown(): string
+    {
         $this->view->setTemplate('Toolbar/DropDown');
         $this->view->assign('date', new \DateTime());
         return $this->view->render();
@@ -104,7 +109,8 @@ class Clock implements ToolbarItemInterface {
      *
      * @return string[]
      */
-    public function getAdditionalAttributes(): array {
+    public function getAdditionalAttributes(): array
+    {
         $currentDateTime = new \DateTime();
         return [
             'class' => 'tx_oclock',
@@ -119,7 +125,8 @@ class Clock implements ToolbarItemInterface {
      *
      * @return int
      */
-    public function getIndex(): int {
+    public function getIndex(): int
+    {
         return 0;
     }
 }
