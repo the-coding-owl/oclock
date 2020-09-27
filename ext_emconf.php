@@ -13,7 +13,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF['oclock'] = array(
     'title' => 'Display a clock in the TYPO3 Backend',
     'description' => 'This extension provides a clock in the TYPO3 Backend and gives a few neat functions',
     'category' => 'be',
@@ -25,14 +25,15 @@ $EM_CONF[$_EXTKEY] = array(
     'uploadfolder' => '0',
     'createDirs' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '0.0.2',
+    'version' => '0.1.0-dev',
     'constraints' => array(
         'depends' => array(
-            'typo3' => '9.5.9-9.5.99'
+            'typo3' => '10.4'
         ),
         'conflicts' => array(
         ),
         'suggests' => array(
+          'dashboard' => '10.4'
         )
     )
 );

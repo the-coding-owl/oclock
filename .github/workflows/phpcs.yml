@@ -1,0 +1,33 @@
+name: PSR
+
+on:
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Cache composer dependencies
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-composer-dependencies
+      with:
+        path: ./.composer/cache
+        key: ${{ runner.os }}-build-${{ env.cache-name }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+            
+    - name: Composer install
+      uses: php-actions/composer@v1
+
+    - name: Composer require typo3/cms-dashboard
+      uses: ./.github/actions/install-typo3-cms-dashboard
+
+    - name: Run PHP_CodeSniffer
+      uses: ./.github/actions/run-phpcs

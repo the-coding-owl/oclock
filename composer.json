@@ -12,12 +12,16 @@
   ],
   "support": {
     "issues": "https://github.com/the-coding-owl/oclock/issues",
-    "source": "https://github.com/the-coding-owl/oclock/issues"
+    "source": "https://github.com/the-coding-owl/oclock"
   },
   "license": "GPL-3.0-or-later",
   "require": {
-    "typo3/cms-core": "^9.5.9",
-    "typo3/cms-backend": "^9.5.9"
+    "typo3/cms-core": "^10.4.0",
+    "typo3/cms-backend": "^10.4.0",
+    "typo3/cms-fluid": "^10.4.0"
+  },
+  "suggest": {
+    "typo3/cms-dashboard": "Make usage of the TYPO3 dashboard and the widgets provided by this extension"
   },
   "authors": [
     {
@@ -32,7 +36,12 @@
     }
   },
   "replace": {
-    "oclock": "self.version",
     "typo3-ter/oclock": "self.version"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^0.12.18",
+    "saschaegerer/phpstan-typo3": "^0.13.1",
+    "phpstan/extension-installer": "^1.0",
+    "squizlabs/php_codesniffer": "^3.5"
   }
 }

@@ -1,0 +1,39 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:layout name="Toolbar/Empty" />
+<f:section name="main">
+    <p>
+        <f:translate key="toolbar.timezone.server" extensionName="oclock" />:
+        <span  class="server-timezone">
+            <f:format.date format="e">{date}</f:format.date>
+        </span>
+    </p>
+    <p>
+        <f:translate key="toolbar.time.server" extensionName="oclock" />:
+        <span class="server-time"></span>
+    </p>
+    <hr />
+    <p>
+        <f:translate key="toolbar.timezone.browser" extensionName="oclock" />:
+        <span class="browser-timezone"></span>
+    </p>
+    <p>
+        <f:translate key="toolbar.time.browser" extensionName="oclock" />:
+        <span class="browser-time"></span>
+    </p>
+    <hr />
+    <p>
+        <core:icon identifier="content-clock" size="small" />
+        <f:translate key="toolbar.reminder" extensionName="oclock" />
+    </p>
+    <p>
+        <button class="btn btn-default reminder-add"
+                title="{f:translate(key:'toolbar.reminder.add',extensionName:'oclock')}">
+            <core:icon identifier="actions-add" size="small" />
+        </button>&nbsp;
+        <button class="btn btn-default reminder-edit"
+                title="{f:translate(key:'toolbar.reminder.edit',extensionName:'oclock')}">
+            <core:icon identifier="actions-open" size="small" />
+        </button>
+    </p>
+</f:section>
+</html>

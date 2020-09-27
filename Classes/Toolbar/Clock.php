@@ -2,31 +2,70 @@
 namespace TheCodingOwl\Oclock\Toolbar;
 
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\Localization\LanguageService;
-use TYPO3\CMS\Core\Imaging\Icon;
-use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 
 /**
  * Clock toolbar class
  */
 class Clock implements ToolbarItemInterface {
     /**
-     * @var LanguageService
+     * @var StandaloneView
      */
-    protected $languageService;
+    protected $view;
+
+    /**
+     * @var PageRenderer
+     */
+    protected $pageRenderer;
+
+    /**
+     * @var ReminderRepository
+     */
+    protected $reminderRepository;
 
     /**
      * Constructs the Clock toolbar item
+     *
+     * @param PageRenderer $pageRenderer
+     * @param ExtensionConfiguration $extensionConfiguration
+     * @param StandaloneView $view
+     * @param ReminderRepository $reminderRepository
      */
-    public function __construct() {
-        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
-        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
-        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Reminder');
-        $this->languageService = GeneralUtility::makeInstance(LanguageService::class);
-        $pageRenderer->addInlineLanguageLabelFile('EXT:oclock/Resources/Private/Language/backend_locallang.xlf');
+    public function __construct(PageRenderer $pageRenderer, ExtensionConfiguration $extensionConfiguration, StandaloneView $view, ReminderRepository $reminderRepository)
+    {
+        $this->pageRenderer = $pageRenderer;
+        $this->view = $view;
+        $this->reminderRepository = $reminderRepository;
+        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
+        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
+        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Reminder');
+        $this->pageRenderer->addInlineLanguageLabelFile('EXT:oclock/Resources/Private/Language/backend_locallang.xlf');
+        $extConf = $extensionConfiguration->get('oclock');
+        $rootPaths = [
+            'template' => [
+                'EXT:oclock/Resources/Private/Templates/'
+            ],
+            'partial' => [
+                'EXT:oclock/Resources/Private/Partials/'
+            ],
+            'layout' => [
+                'EXT:oclock/Resources/Private/Layout/'
+            ]
+        ];
+        if (!empty($extConf['additionalTemplateRootPath'])) {
+            $templateRootPaths['template'][] = $extConf['additionalTemplateRootPath'];
+        }
+        if (!empty($extConf['additionalPartialRootPath'])) {
+            $templateRootPaths['partial'][] = $extConf['additionalPartialRootPath'];
+        }
+        if (!empty($extConf['additionalLayoutRootPath'])) {
+            $templateRootPaths['layout'][] = $extConf['additionalLayoutRootPath'];
+        }
+        $this->view->setTemplateRootPaths($rootPaths['template']);
+        $this->view->setPartialRootPaths($rootPaths['partial']);
+        $this->view->setLayoutRootPaths($rootPaths['layout']);
     }
 
     /**
@@ -34,8 +73,9 @@ class Clock implements ToolbarItemInterface {
      *
      * @return bool
      */
-    public function checkAccess(): bool {
-        return TRUE;
+    public function checkAccess(): bool
+    {
+        return true;
     }
 
     /**
@@ -43,8 +83,10 @@ class Clock implements ToolbarItemInterface {
      *
      * @return string
      */
-    public function getItem(): string {
-        return '<span class="server-time"></span>';
+    public function getItem(): string
+    {
+        $this->view->setTemplate('Toolbar/Item');
+        return $this->view->render();
     }
 
     /**
@@ -52,8 +94,9 @@ class Clock implements ToolbarItemInterface {
      *
      * @return bool
      */
-    public function hasDropDown(): bool {
-        return TRUE;
+    public function hasDropDown(): bool
+    {
+        return true;
     }
 
     /**
@@ -61,34 +104,21 @@ class Clock implements ToolbarItemInterface {
      *
      * @return string
      */
-    public function getDropDown(): string {
-        $iconRegistry = GeneralUtility::makeInstance(IconFactory::class);
-        return '<p>' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.timezone.server') . ': <span  class="server-timezone">' . (new \DateTime())->format('e') . '</span></p>'
-            . '<p>' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.time.server') . ': <span class="server-time">' . '</span></p>'
-            . '<hr />'
-            . '<p>' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.timezone.browser') . ': <span class="browser-timezone"></span></p>'
-            . '<p>' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.time.browser') . ': <span class="browser-time"></span></p>'
-            . '<hr />'
-            . '<p>'
-            . $iconRegistry->getIcon('content-clock', Icon::SIZE_SMALL)->render()
-            . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.reminder')
-            . '</p>'
-            . '<p>'
-            . '<button class="btn btn-default reminder-add" title="' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.reminder.add') . '">'
-            . $iconRegistry->getIcon('actions-add', Icon::SIZE_SMALL)->render()
-            . '</button>&nbsp;'
-            . '<button class="btn btn-default reminder-list" title="' . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:toolbar.reminder.edit') . '">'
-            . $iconRegistry->getIcon('actions-calendar', Icon::SIZE_SMALL)->render()
-            . '</button>'
-            . '</p>';
+    public function getDropDown(): string
+    {
+        $this->view->setTemplate('Toolbar/DropDown');
+        $this->view->assign('date', new \DateTime());
+        $this->view->assign('reminders', $this->reminderRepository->findAllByUser($this->getCurrentUser()));
+        return $this->view->render();
     }
 
     /**
      * Get an array with additional attributes for the ToolbarItem container
      *
-     * @return array
+     * @return string[]
      */
-    public function getAdditionalAttributes(): array {
+    public function getAdditionalAttributes(): array
+    {
         $currentDateTime = new \DateTime();
         return [
             'class' => 'tx_oclock',
@@ -103,7 +133,15 @@ class Clock implements ToolbarItemInterface {
      *
      * @return int
      */
-    public function getIndex(): int {
+    public function getIndex(): int
+    {
         return 0;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCurrentUser(): array {
+        return $GLOBALS['BE_USER']->user;
     }
 }

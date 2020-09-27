@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    TheCodingOwl\Oclock\:
+        resource: '../Classes/*'
+
+    TheCodingOwl\Oclock\Widgets\ClockWidget:
+        arguments: ['theCodingOwlClock']
+        tags:
+            - name: dashboard.widget
+              identifier: theCodingOwlClock
+              widgetGroups: 'systemInfo'

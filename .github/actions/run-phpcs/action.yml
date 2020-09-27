@@ -1,0 +1,6 @@
+name: 'Run the PHP_CodeSniffer'
+description: 'Run the PHP_CodeSniffer'
+author: 'Kevin Ditscheid <kevin@the-coding-owl.de>'
+runs:
+  using: docker
+  image: Dockerfile

@@ -1,0 +1,6 @@
+name: 'Run the phpstan analyser'
+description: 'Run the phpstan analyser'
+author: 'Kevin Ditscheid <kevin@the-coding-owl.de>'
+runs:
+  using: docker
+  image: Dockerfile
