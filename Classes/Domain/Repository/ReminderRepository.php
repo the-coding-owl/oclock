@@ -46,7 +46,9 @@ class ReminderRepository {
     }
 
     public function add(array $reminder): bool {
-
+        try {
+            $this->connection->insert(self::tableName, $reminder);
+        }
     }
 
     public function remove(array $reminder): bool {

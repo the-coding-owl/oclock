@@ -10,22 +10,16 @@ use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
-<<<<<<< HEAD
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TheCodingOwl\Oclock\Domain\Repository\ReminderRepository;
-=======
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
->>>>>>> 77736d154de10e0e57fe8d9bea246fce3b28e06b
 
 /**
  * Controller for the reminders
  */
 class ReminderController {
     /**
-<<<<<<< HEAD
      * @var ReminderRepository
      */
     protected $reminderRepository;
@@ -69,24 +63,6 @@ class ReminderController {
         $this->view->setTemplateRootPaths($rootPaths['template']);
         $this->view->setPartialRootPaths($rootPaths['partial']);
         $this->view->setLayoutRootPaths($rootPaths['layout']);
-=======
-     * @var LanguageService
-     */
-    protected $languageService;
-
-    /**
-     * @var Connection
-     */
-    protected $connection;
-
-    /**
-     * Constructor of the ReminderController
-     */
-    public function __construct() {
-        $this->languageService = GeneralUtility::makeInstance(LanguageService::class);
-        $this->connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable('tx_oclock_reminder');
->>>>>>> 77736d154de10e0e57fe8d9bea246fce3b28e06b
     }
 
     /**
@@ -96,15 +72,6 @@ class ReminderController {
      * @return ResponseInterface
      */
     public function addAction(ServerRequestInterface $request): ResponseInterface {
-<<<<<<< HEAD
-        $params = $request->getParsedBody();
-        $success = $this->reminderRepository->add([
-            'user' => $GLOBALS['BE_USER']->user['uid'],
-            'message' => $params['message'],
-            'datetime' => (new \DateTime($params['datetime']))->format('Y-m-d H:i:s')
-        ]);
-        if ($success) {
-=======
         try{
             $params = $request->getParsedBody();
             $this->connection->insert('tx_oclock_reminder', [
@@ -112,19 +79,10 @@ class ReminderController {
                 'message' => $params['message'],
                 'datetime' => (new \DateTime($params['datetime']))->format('Y-m-d H:i:s')
             ]);
->>>>>>> 77736d154de10e0e57fe8d9bea246fce3b28e06b
             $response = new JsonResponse([
                 'success' => TRUE,
                 'message' => ''
             ]);
-<<<<<<< HEAD
-        } else {
-            $response = new JsonResponse([
-                'success' => FALSE,
-                'message' => $this->reminderRepository->getLastErrorMessage()
-            ]);
-        }
-=======
         } catch(\Exception $e) {
             $response = new JsonResponse([
                 'success' => FALSE,
@@ -132,7 +90,6 @@ class ReminderController {
             ]);
         }
 
->>>>>>> 77736d154de10e0e57fe8d9bea246fce3b28e06b
         return $response;
     }
 
@@ -143,10 +100,6 @@ class ReminderController {
      * @return ResponseInterface
      */
     public function listAction(ServerRequestInterface $request): ResponseInterface {
-<<<<<<< HEAD
-        $this->view->setTemplate('Reminder/List');
-=======
->>>>>>> 77736d154de10e0e57fe8d9bea246fce3b28e06b
         try {
             $queryBuilder = $this->connection->createQueryBuilder();
             $results = $queryBuilder->select('*')

@@ -7,6 +7,9 @@ services:
     TheCodingOwl\Oclock\:
         resource: '../Classes/*'
 
+    TheCodingOwl\Oclock\Toolbar\Clock:
+        public: true
+
     TheCodingOwl\Oclock\Widgets\ClockWidget:
         arguments: ['theCodingOwlClock']
         tags:
