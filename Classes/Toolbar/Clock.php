@@ -5,6 +5,7 @@ use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TheCodingOwl\Oclock\Domain\Repository\ReminderRepository;
 
 /**
  * Clock toolbar class

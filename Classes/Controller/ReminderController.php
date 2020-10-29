@@ -72,21 +72,17 @@ class ReminderController {
      * @return ResponseInterface
      */
     public function addAction(ServerRequestInterface $request): ResponseInterface {
-        try{
             $params = $request->getParsedBody();
-            $this->connection->insert('tx_oclock_reminder', [
-                'user' => $GLOBALS['BE_USER']->user['uid'],
-                'message' => $params['message'],
-                'datetime' => (new \DateTime($params['datetime']))->format('Y-m-d H:i:s')
-            ]);
+            $success = $this->reminderRepository->add($params['reminder']);
+        if ($success) {
             $response = new JsonResponse([
                 'success' => TRUE,
                 'message' => ''
             ]);
-        } catch(\Exception $e) {
+        } else {
             $response = new JsonResponse([
                 'success' => FALSE,
-                'message' => $e->getMessage()
+                'message' => $this->reminderRepository->getLastErrorMessage()
             ]);
         }
 
@@ -182,14 +178,8 @@ class ReminderController {
      * @return ResponseInterface
      */
     public function deleteAction(ServerRequestInterface $request): ResponseInterface {
-        try {
-            $this->connection->delete(
-                'tx_oclock_reminder',
-                [
-                    'uid' => $request->getParsedBody()['reminder'],
-                    'user' => $GLOBALS['BE_USER']->user['uid']
-                ]
-            );
+        $success = $this->reminderRepository->remove($request->getParsedBody()['reminder']);
+        if ($success) {
             $response = new JsonResponse(
                 [
                     'message' => $this->languageService->sL(
@@ -198,14 +188,15 @@ class ReminderController {
                     'success' => TRUE
                 ]
             );
-        } catch (\Exception $e) {
+        } else {
             $response = new JsonResponse(
                 [
-                    'message' => $e->getMessage(),
+                    'message' => $this->reminderRepository->getLastErrorMessage(),
                     'success' => FALSE
                 ]
             );
         }
+
         return $response;
     }
 
