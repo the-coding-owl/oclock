@@ -7,6 +7,9 @@ services:
     TheCodingOwl\Oclock\:
         resource: '../Classes/*'
 
+    TheCodingOwl\Oclock\Controller\ReminderController:
+        public: true
+
     TheCodingOwl\Oclock\Toolbar\Clock:
         public: true
 

@@ -13,6 +13,7 @@ use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TheCodingOwl\Oclock\Domain\Repository\ReminderRepository;
 
 /**

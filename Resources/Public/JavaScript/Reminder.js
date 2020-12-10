@@ -42,14 +42,14 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                         + TYPO3.lang['oclock/reminder.message']
                     + '</label>'
                     + '<br />'
-                    + '<textarea name="message" class="form-control" id="tx-oclock-message" cols="40" rows="12"></textarea>'
+                    + '<textarea name="reminder[message]" class="form-control" id="tx-oclock-message" cols="40" rows="12"></textarea>'
                 + '</p>'
                 + '<p>'
                     + '<label for="tx-oclock-datetime">'
                         + TYPO3.lang['oclock/reminder.datetime']
                     + '</label>'
                     + '<br />'
-                    + '<input type="text" name="datetime" class="t3js-datetimepicker form-control" data-date-type="datetime" id="tx-oclock-datetime" />'
+                    + '<input type="text" name="reminder[datetime]" class="t3js-datetimepicker form-control" data-date-type="datetime" id="tx-oclock-datetime" />'
                 + '</p>'
             + '</form>',
             openAddModal: function() {
