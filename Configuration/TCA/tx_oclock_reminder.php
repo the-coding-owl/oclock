@@ -4,7 +4,8 @@ return [
     'ctrl' => [
         'title' => 'Reminder',
         'hideTable' => TRUE,
-        'rootLevel' => TRUE
+        'rootLevel' => TRUE,
+        'cruser_id' => 'user'
     ],
     'interface' => '',
     'types' => [
@@ -35,7 +36,6 @@ return [
             'config' => [
                 'type' => 'input',
                 'renderType' => 'inputDateTime',
-                'dbType' => 'datetime',
                 'eval' => 'datetime',
                 'default' => (new \DateTime())->format('Y-m-d H:i:s')
             ]

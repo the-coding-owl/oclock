@@ -1,5 +1,9 @@
 <?php
 return [
+    'oclock/reminder_show_add_form' => [
+        'path' => '/oclock/reminder/showAddForm',
+        'target' => TheCodingOwl\Oclock\Controller\ReminderController::class . '::showAddFormAction'
+    ],
     'oclock/reminder_add' => [
         'path' => '/oclock/reminder/add',
         'target' => TheCodingOwl\Oclock\Controller\ReminderController::class . '::addAction'

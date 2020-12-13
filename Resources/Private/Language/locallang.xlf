@@ -33,16 +33,34 @@
             <trans-unit id="toolbar.reminder.edit" xml:space="preserve">
                 <source>Edit reminders</source>
             </trans-unit>
+            <trans-unit id="reminder.add.title" xml:space="preserve">
+                <source>Add new reminder</source>
+            </trans-unit>
+            <trans-unit id="reminder.add.successfull" xml:space="preserve">
+                <source>Reminder successfully added</source>
+            </trans-unit>
+            <trans-unit id="reminder.add.error" xml:space="preserve">
+                <source>Reminder could not be added</source>
+            </trans-unit>
             <trans-unit id="reminder.delete.successfull" xml:space="preserve">
                 <source>Reminder successfully deleted</source>
+            </trans-unit>
+            <trans-unit id="reminder.delete.error" xml:space="preserve">
+                <source>Reminder could not be deleted</source>
+            </trans-unit>
+            <trans-unit id="reminder.edit.error" xml:space="preserve">
+                <source>Error while changing reminder</source>
+            </trans-unit>
+            <trans-unit id="reminder.edit.success" xml:space="preserve">
+                <source>Reminder successfully changed</source>
             </trans-unit>
             <trans-unit id="reminder.edit.error" xml:space="preserve">
                 <source>Reminder could not be edited</source>
             </trans-unit>
-            <trans-unit id="reminder.list.message" xml:space="preserve">
+            <trans-unit id="reminder.message" xml:space="preserve">
                 <source>Message</source>
             </trans-unit>
-            <trans-unit id="reminder.list.date" xml:space="preserve">
+            <trans-unit id="reminder.date" xml:space="preserve">
                 <source>Date</source>
             </trans-unit>
             <trans-unit id="reminder.list.edit" xml:space="preserve">
@@ -54,12 +72,7 @@
             <trans-unit id="reminder.list.empty" xml:space="preserve">
                 <source>No reminders found</source>
             </trans-unit>
-            <trans-unit id="reminder.edit.error" xml:space="preserve">
-                <source>Error while changing reminder</source>
-            </trans-unit>
-            <trans-unit id="reminder.edit.success" xml:space="preserve">
-                <source>Reminder successfully changed</source>
-            </trans-unit>
+
             <trans-unit id="reminder.get.error" xml:space="preserve">
                 <source>Fetching reminder failed</source>
             </trans-unit>

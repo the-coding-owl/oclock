@@ -14,6 +14,7 @@ use TYPO3\CMS\Fluid\View\StandaloneView;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Extbase\Mvc\Controller\ControllerContext;
 use TheCodingOwl\Oclock\Domain\Repository\ReminderRepository;
 
 /**
@@ -67,14 +68,26 @@ class ReminderController {
     }
 
     /**
+     * Show the add form
+     *
+     * @param ServerResponseInterface $request
+     * @return ResponseInterface
+     */
+    public function showAddFormAction(ServerRequestInterface $request): ResponseInterface {
+        $params = $request->getQueryParams();
+        $this->view->setTemplate('Reminder/AddForm');
+        return new HtmlResponse($this->view->render());
+    }
+
+    /**
      * Add a new reminder
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      */
     public function addAction(ServerRequestInterface $request): ResponseInterface {
-            $params = $request->getParsedBody();
-            $success = $this->reminderRepository->add($params['reminder']);
+        $params = $request->getParsedBody();
+        $success = $this->reminderRepository->add($params['reminder']);
         if ($success) {
             $response = new JsonResponse([
                 'success' => TRUE,
@@ -98,73 +111,10 @@ class ReminderController {
      */
     public function listAction(ServerRequestInterface $request): ResponseInterface {
         try {
-            $queryBuilder = $this->connection->createQueryBuilder();
-            $results = $queryBuilder->select('*')
-                ->from('tx_oclock_reminder')
-                ->where(
-                    $queryBuilder->expr()->eq(
-                        'user',
-                        $queryBuilder->createNamedParameter(
-                            $GLOBALS['BE_USER']->user['uid'],
-                            Connection::PARAM_INT
-                        )
-                    )
-                )
-                ->setMaxResults(20)
-                ->setFirstResult(0)
-                ->execute()
-                ->fetchAll();
-            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-            $content = '<table class="table table-striped table-hover">'
-                . '<thead>'
-                    . '<tr>'
-                        . '<th>'
-                            . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.list.message')
-                        . '</th>'
-                        . '<th>'
-                            . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.list.date')
-                        . '</th>'
-                        . '<th>'
-                            . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.list.edit')
-                        . '</th>'
-                        . '<th>'
-                            . $this->languageService->sL('LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.list.delete')
-                        . '</th>'
-                    . '</tr>'
-                . '</thead>'
-                . '<tbody>';
-            foreach($results as $result) {
-                $content .= '<tr data-reminder="' . $result['uid'] . '">'
-                    . '<td class="col-responsive">'
-                        . $result['message']
-                    . '</td>'
-                    . '<td>'
-                        . (new \DateTime($result['datetime']))->format('r')
-                    . '</td>'
-                    . '<td>'
-                        . '<a href="#" class="reminder-edit" data-uid="' . (int) $result['uid'] . '">'
-                            . $iconFactory->getIcon('actions-open', Icon::SIZE_SMALL)->render()
-                        . '</a>'
-                    . '</td>'
-                    . '<td>'
-                        . '<a href="#" class="reminder-delete" data-uid="' . (int) $result['uid'] . '">'
-                            . $iconFactory->getIcon('actions-delete', Icon::SIZE_SMALL)->render()
-                        . '</a>'
-                    . '</td>'
-                . '</tr>';
-            }
-            if (count($results) === 0) {
-                $content .= '<tr>'
-                    . '<td colspan="4">'
-                        . $this->languageService->sL(
-                            'LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.list.empty'
-                        )
-                    . '</td>'
-                .'</tr>';
-            }
-            $content .= '</tbody>'
-                . '</table>';
-            $response = new HtmlResponse($content);
+            $reminders = $this->reminderRepository->findAllByUser($GLOBALS['BE_USER']->user['uid']);
+            $this->view->assign('reminders', $reminders);
+            $this->view->setTemplate('Reminder/List');
+            return new HtmlResponse($this->view->render());
         } catch (\Exception $e) {
             $response = new HtmlResponse('<div class="panel panel-error">' . $e->getMessage() . '</div>');
         }

@@ -36,29 +36,12 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                     });
                 });
             },
-            form: '<form class="tx_oclock_form">'
-                + '<p class="form-group">'
-                    + '<label for="tx-oclock-message">'
-                        + TYPO3.lang['oclock/reminder.message']
-                    + '</label>'
-                    + '<br />'
-                    + '<textarea name="reminder[message]" class="form-control" id="tx-oclock-message" cols="40" rows="12"></textarea>'
-                + '</p>'
-                + '<p>'
-                    + '<label for="tx-oclock-datetime">'
-                        + TYPO3.lang['oclock/reminder.datetime']
-                    + '</label>'
-                    + '<br />'
-                    + '<input type="text" name="reminder[datetime]" class="t3js-datetimepicker form-control" data-date-type="datetime" id="tx-oclock-datetime" />'
-                + '</p>'
-            + '</form>',
             openAddModal: function() {
                 let reminder = this;
-                reminder.addModal = Modal.advanced({
-                    title: TYPO3.lang['oclock/reminder.add.title'],
-                    content: $(reminder.form),
-                    severity: Severity.info,
-                    buttons: [
+                reminder.addModal = Modal.loadUrl(
+                    TYPO3.lang['oclock/reminder.add.title'],
+                    Severity.info,
+                    [
                         {
                             text: TYPO3.lang['button.cancel'],
                             active: true,
@@ -97,10 +80,11 @@ define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Backend/Notification', '
                             }
                         }
                     ],
-                    callback: function(currentModal) {
-                        DateTimePicker.initializeField(currentModal.find('.tx_oclock_form .t3js-datetimepicker'));
+                    TYPO3.settings.ajaxUrls['oclock/reminder_show_add_form'],
+                    function() {
+                        DateTimePicker.initializeField(Modal.currentModal.find('.tx_oclock_form .t3js-datetimepicker'));
                     }
-                });
+                );
             },
             openListModal: function() {
                 let reminder = this;
