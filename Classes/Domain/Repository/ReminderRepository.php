@@ -71,6 +71,29 @@ class ReminderRepository implements LoggerAwareInterface {
     }
 
     /**
+     * Find a reminder by its uid but restrict the query by the fiven user
+     *
+     * @param int $uid
+     * @param array $user
+     */
+    public function findByUidRestrictedByUser(int $uid, array $user): array {
+        try {
+            $queryBuilder = $this->connection->createQueryBuilder();
+            return $queryBuilder->select('*')
+                ->from(self::tableName)
+                ->where(
+                    $queryBuilder->expr()->eq('user', (int)$user['uid']),
+                    $queryBuilder->expr()->eq('uid', $uid)
+                )->setMaxResults(1)
+                ->execute()
+                ->fetchAssociative();
+        } catch(\Exception $e) {
+            $this->lastException = $e;
+            return [];
+        }
+    }
+
+    /**
      * Add a new reminder
      *
      * @param array $reminder

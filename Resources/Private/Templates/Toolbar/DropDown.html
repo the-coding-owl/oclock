@@ -1,4 +1,4 @@
-<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers" data-namespace-typo3-fluid="true">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers" xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:layout name="Toolbar/Empty" />
 <f:section name="main">
     <p>
@@ -21,19 +21,29 @@
         <span class="browser-time"></span>
     </p>
     <hr />
-    <p>
+    <p class="clearfix">
         <core:icon identifier="content-clock" size="small" />
         <f:translate key="toolbar.reminder" extensionName="oclock" />
+        <span class="pull-right">
+            <button class="btn btn-warning reminder-add"
+                    title="{f:translate(key:'toolbar.reminder.add',extensionName:'oclock')}">
+                <core:icon identifier="actions-add" size="small" />
+            </button>
+        </span>
     </p>
-    <p>
-        <button class="btn btn-default reminder-add"
-                title="{f:translate(key:'toolbar.reminder.add',extensionName:'oclock')}">
-            <core:icon identifier="actions-add" size="small" />
-        </button>&nbsp;
-        <button class="btn btn-default reminder-edit"
-                title="{f:translate(key:'toolbar.reminder.edit',extensionName:'oclock')}">
-            <core:icon identifier="actions-open" size="small" />
-        </button>
-    </p>
+    <ul class="list-unstyled reminder-list">
+        <f:for each="{reminders}" as="reminder">
+            <li>
+                <a class="reminder-edit"
+                   data-reminder="{reminder.uid}"
+                   data-edit-url="{be:moduleLink(route: 'oclock/reminder_show_edit_form', arguments: '{reminder: reminder.uid}')}"
+                   title="{f:translate(key:'toolbar.reminder.edit',extensionName:'oclock')}">
+                    {reminder.message}
+                    <span class="pull-right">{reminder.datetime -> f:format.date(format:'d-m-Y H:i')}</span>
+                </a>
+            </li>
+        </f:for>
+        <li></li>
+    </ul>
 </f:section>
 </html>

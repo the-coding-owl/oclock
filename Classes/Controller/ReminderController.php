@@ -32,6 +32,11 @@ class ReminderController {
     protected $view;
 
     /**
+     * @var array
+     */
+    protected $user;
+
+    /**
      * Constructor of the ReminderController
      *
      * @param ExtensionConfiguration $extensionConfiguration
@@ -41,6 +46,7 @@ class ReminderController {
     public function __construct(ExtensionConfiguration $extensionConfiguration, StandaloneView $view, ReminderRepository $reminderRepository) {
         $this->view = $view;
         $this->reminderRepository = $reminderRepository;
+        $this->user = $GLOBALS['BE_USER']->user;
         $extConf = $extensionConfiguration->get('oclock');
         $rootPaths = [
             'template' => [
@@ -70,12 +76,25 @@ class ReminderController {
     /**
      * Show the add form
      *
-     * @param ServerResponseInterface $request
+     * @param ServerRequestInterface $request
      * @return ResponseInterface
      */
     public function showAddFormAction(ServerRequestInterface $request): ResponseInterface {
         $params = $request->getQueryParams();
         $this->view->setTemplate('Reminder/AddForm');
+        return new HtmlResponse($this->view->render());
+    }
+
+    /**
+     * Show the edit form
+     *
+     * @param ServerRequestInterface $request
+     * @return ResponseInterface
+     */
+    public function showEditFormAction(ServerRequestInterface $request): ResponseInterface {
+        $params = $request->getQueryParams();
+        $this->view->setTemplate('Reminder/EditForm');
+        $this->view->assign('reminder', $this->reminderRepository->findByUidRestrictedByUser($params['reminder'], $this->user));
         return new HtmlResponse($this->view->render());
     }
 
@@ -104,19 +123,24 @@ class ReminderController {
     }
 
     /**
-     * List reminders
+     * Edit a reminder
      *
      * @param ServerRequestInterface $request
      * @return ResponseInterface
      */
-    public function listAction(ServerRequestInterface $request): ResponseInterface {
-        try {
-            $reminders = $this->reminderRepository->findAllByUser($GLOBALS['BE_USER']->user['uid']);
-            $this->view->assign('reminders', $reminders);
-            $this->view->setTemplate('Reminder/List');
-            return new HtmlResponse($this->view->render());
-        } catch (\Exception $e) {
-            $response = new HtmlResponse('<div class="panel panel-error">' . $e->getMessage() . '</div>');
+    public function editAction(ServerRequestInterface $request): ResponseInterface {
+        $params = $request->getParsedBody();
+        $success = $this->reminderRepository->update($params['reminder']);
+        if ($success) {
+            $response = new JsonResponse([
+                'success' => TRUE,
+                'message' => ''
+            ]);
+        } else {
+            $response = new JsonResponse([
+                'success' => FALSE,
+                'message' => $this->reminderRepository->getLastErrorMessage()
+            ]);
         }
 
         return $response;
@@ -129,13 +153,13 @@ class ReminderController {
      * @return ResponseInterface
      */
     public function deleteAction(ServerRequestInterface $request): ResponseInterface {
-        $success = $this->reminderRepository->remove($request->getParsedBody()['reminder']);
+        $params = $request->getParsedBody();
+        $reminder = $this->reminderRepository->findByUidRestrictedByUser($params['reminder'], $this->user);
+        $success = $this->reminderRepository->remove($reminder);
         if ($success) {
             $response = new JsonResponse(
                 [
-                    'message' => $this->languageService->sL(
-                        'LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.delete.successfull'
-                    ),
+                    'message' => '',
                     'success' => TRUE
                 ]
             );
@@ -146,101 +170,6 @@ class ReminderController {
                     'success' => FALSE
                 ]
             );
-        }
-
-        return $response;
-    }
-
-    /**
-     * Get a reminder
-     *
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
-     */
-    public function getAction(ServerRequestInterface $request): ResponseInterface {
-        try {
-            $queryBuilder = $this->connection->createQueryBuilder();
-            $reminder = $queryBuilder->select('*')
-                ->from('tx_oclock_reminder')
-                ->where(
-                    $queryBuilder->expr()->eq(
-                        'user',
-                        $queryBuilder->createNamedParameter($GLOBALS['BE_USER']->user['uid'], Connection::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'uid',
-                        $queryBuilder->createNamedParameter($request->getQueryParams()['reminder'], Connection::PARAM_INT)
-                    )
-                )
-                ->setMaxResults(1)->execute()->fetch();
-            if (!$reminder) {
-                $response = new JsonResponse([
-                    'success' => FALSE,
-                    'message' => $this->languageService->sL(
-                        'LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.get.error'
-                    )
-                ]);
-            } else {
-                $response = new JsonResponse([
-                    'success' => TRUE,
-                    'message' => '',
-                    'reminder' => $reminder
-                ]);
-            }
-        } catch (\Exception $e) {
-           $response = new JsonResponse([
-               'success' => FALSE,
-               'message' => $e->getMessage()
-           ]);
-       }
-
-       return $response;
-    }
-
-    /**
-     * Edit a reminder
-     *
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
-     */
-    public function editAction(ServerRequestInterface $request): ResponseInterface {
-        try {
-            $queryBuilder = $this->connection->createQueryBuilder();
-            $queryBuilder->update('tx_oclock_reminder')
-                ->where(
-                    $queryBuilder->expr()->eq(
-                        'user',
-                        $queryBuilder->createNamedParameter($GLOBALS['BE_USER']->user['uid'], Connection::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'uid',
-                        $queryBuilder->createNamedParameter($request->getParsedBody()['reminder'], Connection::PARAM_INT)
-                    )
-                );
-            $params = $request->getParsedBody();
-            $queryBuilder->set('message', $params['message'])
-                ->set('datetime', (new \DateTime($params['datetime']))->format('Y-m-d H:i:s'));
-            $changes = $queryBuilder->execute();
-            if ($changes === 0) {
-                $response = new JsonResponse([
-                    'success' => FALSE,
-                    'message' => $this->languageService->sL(
-                        'LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.edit.error'
-                    )
-                ]);
-            } else {
-                $response = new JsonResponse([
-                    'success' => TRUE,
-                    'message' => $this->languageService->sL(
-                        'LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:reminder.edit.success'
-                    )
-                ]);
-            }
-        } catch (\Exception $e) {
-            $response = new JsonResponse([
-                'success' => FALSE,
-                'message' => $e->getMessage()
-            ]);
         }
 
         return $response;

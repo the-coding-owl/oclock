@@ -1,0 +1,22 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:layout name="Reminder/Default" />
+<f:section name="main">
+    <form class="tx_oclock_form">
+        <p class="form-group">
+            <label for="tx-oclock-message">
+                <f:translate key="reminder.message" extensionName="oclock" />
+            </label>
+            <br />
+            <textarea name="reminder[message]" class="form-control" id="tx-oclock-message" cols="40" rows="12">{reminder.message}</textarea>
+        </p>
+        <p>
+            <label for="tx-oclock-datetime">
+                <f:translate key="reminder.date" extensionName="oclock" />
+            </label>
+            <br />
+            <input type="text" name="reminder[datetime]" class="t3js-datetimepicker form-control" data-date-type="datetime" id="tx-oclock-datetime" value="{reminder.datetime -> f:format.date(format:'H:i d-m-Y')}" />
+        </p>
+        <input type="hidden" name="reminder[uid]" value="{reminder.uid}" />
+    </form>
+</f:section>
+</html>

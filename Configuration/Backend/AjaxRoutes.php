@@ -4,6 +4,10 @@ return [
         'path' => '/oclock/reminder/showAddForm',
         'target' => TheCodingOwl\Oclock\Controller\ReminderController::class . '::showAddFormAction'
     ],
+    'oclock/reminder_show_edit_form' => [
+        'path' => '/oclock/reminder/showEditForm',
+        'target' => TheCodingOwl\Oclock\Controller\ReminderController::class . '::showEditFormAction'
+    ],
     'oclock/reminder_add' => [
         'path' => '/oclock/reminder/add',
         'target' => TheCodingOwl\Oclock\Controller\ReminderController::class . '::addAction'
@@ -15,13 +19,5 @@ return [
     'oclock/reminder_delete' => [
         'path' => '/oclock/reminder/delete',
         'target' => TheCodingOwl\Oclock\Controller\ReminderController::class . '::deleteAction'
-    ],
-    'oclock/reminder_list' => [
-        'path' => '/oclock/reminder/list',
-        'target' => TheCodingOwl\Oclock\Controller\ReminderController::class . '::listAction'
-    ],
-    'oclock/reminder_get' => [
-        'path' => '/oclock/reminder/get',
-        'target' => TheCodingOwl\Oclock\Controller\ReminderController::class . '::getAction'
     ]
 ];
