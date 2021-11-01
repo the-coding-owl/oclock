@@ -2,7 +2,3 @@ parameters:
   level: max
   paths:
     - Classes
-  ignoreErrors:
-    -
-      message: '#Property TheCodingOwl\\Oclock\\Widgets\\ClockWidget::\$extConf \(array\<string, array\<string\>\|string\>\) does not accept mixed\.#'
-      path: Classes/Widgets/ClockWidget.php
