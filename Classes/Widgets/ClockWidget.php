@@ -1,18 +1,17 @@
 <?php
 namespace TheCodingOwl\Oclock\Widgets;
 
-use TYPO3\CMS\Dashboard\Widgets\AbstractWidget;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Dashboard\Widgets\Interfaces\RequireJsModuleInterface;
-use TYPO3\CMS\Dashboard\Widgets\Interfaces\AdditionalCssInterface;
+use TYPO3\CMS\Dashboard\Widgets\RequireJsModuleInterface;
+use TYPO3\CMS\Dashboard\Widgets\AdditionalCssInterface;
+use TYPO3\CMS\Dashboard\Widgets\WidgetInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * The widget for a clock
  */
-class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, AdditionalCssInterface {
+class ClockWidget implements WidgetInterface, RequireJsModuleInterface, AdditionalCssInterface {
     /**
      * The title of the widget
      *
@@ -78,12 +77,12 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
     
     /**
      * Constructor of the ClockWidget
-     *
-     * @param string $identifier
+     * 
+     * @var StandaloneView $view
      */
-    public function __construct(string $identifier)
+    public function __construct(StandaloneView $view)
     {
-        parent::__construct($identifier);
+        $this->view = $view;
         /** @var ExtensionConfiguration $extensionConfiguration */
         $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
         $this->extConf = $extensionConfiguration->get('oclock');
@@ -94,7 +93,6 @@ class ClockWidget extends AbstractWidget implements RequireJsModuleInterface, Ad
      */
     protected function initializeView(): void
     {
-        parent::initializeView();
         $rootPaths = [
             'template' => [
                 'EXT:oclock/Resources/Private/Templates/'

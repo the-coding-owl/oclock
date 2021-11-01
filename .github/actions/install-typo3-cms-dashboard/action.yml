@@ -1,6 +1,0 @@
-name: 'Install TYPO3 Dashboard extension via composer'
-description: 'Install TYPO3 Dashboard extension via composer'
-author: 'Kevin Ditscheid <kevin@the-coding-owl.de>'
-runs:
-  using: docker
-  image: Dockerfile

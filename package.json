@@ -2,11 +2,10 @@
   "name": "oclock",
   "version": "0.0.6",
   "description": "This extension provides a clock in the TYPO3 Backend and gives a few neat functions",
-  "dependencies": {},
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "csslint": "^1.0.5",
-    "eslint": "^6.8.0"
+    "eslint": "^8.1.0"
   },
   "repository": {
     "type": "git",
