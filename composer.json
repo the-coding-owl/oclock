@@ -16,9 +16,9 @@
   },
   "license": "GPL-3.0-or-later",
   "require": {
-    "typo3/cms-core": "^9.5.9 || ^10.1.0",
-    "typo3/cms-backend": "^9.5.9 || ^10.1.0",
-    "typo3/cms-fluid": "^9.5.9 || ^10.1.0"
+    "typo3/cms-core": "^9.5.9 || ^10.1.0 || ^11.5.0",
+    "typo3/cms-backend": "^9.5.9 || ^10.1.0 || ^11.5.0",
+    "typo3/cms-fluid": "^9.5.9 || ^10.1.0 || ^11.5.0"
   },
   "suggest": {
     "typo3/cms-dashboard": "Make usage of the TYPO3 dashboard and the widgets provided by this extension"
