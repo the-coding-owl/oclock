@@ -24,7 +24,7 @@ jobs:
           ${{ runner.os }}-
 
     - name: ESLint Action
-      uses: stefanoeb/eslint-action@1.0.2
+      run: ./node_modules/.bin/eslint
 
     - name: CSSLint Action
       run: ./node_modules/.bin/csslint --exclude-list=node_modules --exclude=public .
