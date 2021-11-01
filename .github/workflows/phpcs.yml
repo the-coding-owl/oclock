@@ -25,6 +25,8 @@ jobs:
             
     - name: Composer install
       uses: php-actions/composer@v1
+      with:
+        args: --php_version=7.4
 
     - name: Composer require typo3/cms-dashboard
       uses: ./.github/actions/install-typo3-cms-dashboard
