@@ -3,7 +3,6 @@ namespace TheCodingOwl\Oclock\Widgets;
 
 use TYPO3\CMS\Dashboard\Widgets\AbstractWidget;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Dashboard\Widgets\Interfaces\RequireJsModuleInterface;
 use TYPO3\CMS\Dashboard\Widgets\Interfaces\AdditionalCssInterface;
