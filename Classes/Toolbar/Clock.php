@@ -26,11 +26,9 @@ class Clock implements ToolbarItemInterface {
      */
     public function __construct() 
     {
-        /** @var PageRenderer */
         $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
         $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
-        /** @var StandaloneView */  
         $this->view = GeneralUtility::makeInstance(StandaloneView::class);
         /** @var ExtensionConfiguration $extensionConfiguration */
         $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
