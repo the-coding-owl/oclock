@@ -21,4 +21,4 @@ jobs:
       run: ./node_modules/.bin/eslint
 
     - name: CSSLint Action
-      run: ./node_modules/.bin/csslint --exclude-list=node_modules --exclude=public .
+      run: ./node_modules/.bin/csslint --exclude-list=vendor,node_modules,public .
