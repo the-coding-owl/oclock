@@ -43,5 +43,10 @@
     "saschaegerer/phpstan-typo3": "^0.13.1",
     "phpstan/extension-installer": "^1.0",
     "squizlabs/php_codesniffer": "^3.5"
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "oclock"
+    }
   }
 }
