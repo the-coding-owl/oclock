@@ -26,13 +26,13 @@ jobs:
     - name: Composer install
       uses: php-actions/composer@v6
       with:
-        php_version: 7.4
+        php_version: 8.0
 
     - name: Composer require typo3/cms-dashboard
       uses: php-actions/composer@v6
       with:
-        php_version: 7.4
-        command: require typo3/cms-dashboard:^10.4.0
+        php_version: 8.0
+        command: require typo3/cms-dashboard:^11.5.0
 
     - name: Run phpstan
       uses: ./.github/actions/run-phpstan
