@@ -78,14 +78,18 @@ class ClockWidget implements WidgetInterface, RequireJsModuleInterface, Addition
     /**
      * Constructor of the ClockWidget
      * 
-     * @var StandaloneView $view
+     * @param StandaloneView $view
      */
     public function __construct(StandaloneView $view)
     {
         $this->view = $view;
         /** @var ExtensionConfiguration $extensionConfiguration */
         $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
-        $this->extConf = $extensionConfiguration->get('oclock');
+        /** @var array{dashboard:string[],additionalTemplateRootPath:string,additionalPartialRootPath:string,additionalLayoutRootPath:string} $extConf */
+        $extConf = $extensionConfiguration->get('oclock');
+        if (is_array($extConf)) {
+            $this->extConf = $extConf;
+        }
     }
     
     /**
