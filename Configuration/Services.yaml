@@ -3,16 +3,6 @@ services:
         autowire: true
         autoconfigure: true
         public: false
-    dashboard.widget.custom:
-        class: 'TheCodingOwl\Oclock\Widgets\ClockWidget'
-        arguments:
-            $view: '@dashboard.views.widget'
-        tags:
-            - name: dashboard.widget
-              identifier: theCodingOwlClock
-              groupNames: 'systemInfo'
-              title: 'Clock Widget'
-              description: 'Displays a clock'
-              iconIdentifier: 'the-coding-owl-clock'
-              height: 'medium'
-              width: 'medium'
+
+    TheCodingOwl\Oclock\:
+        resource: '../Classes/*'

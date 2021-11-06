@@ -32,6 +32,7 @@ class Clock implements ToolbarItemInterface {
         $this->view = GeneralUtility::makeInstance(StandaloneView::class);
         /** @var ExtensionConfiguration $extensionConfiguration */
         $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+        /** @var array{dashboard:string[],additionalTemplateRootPath:string,additionalPartialRootPath:string,additionalLayoutRootPath:string} $extConf */
         $extConf = $extensionConfiguration->get('oclock');
         $rootPaths = [
             'template' => [
