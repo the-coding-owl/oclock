@@ -26,13 +26,13 @@ jobs:
     - name: Composer install
       uses: php-actions/composer@v6
       with:
-        php_version: 8.0
+        php_version: 8.1
 
     - name: Composer require typo3/cms-dashboard
       uses: php-actions/composer@v6
       with:
-        php_version: 8.0
-        command: require typo3/cms-dashboard:^11.5.0
+        php_version: 8.1
+        command: require typo3/cms-dashboard:^12.0.0
 
     - name: Run PHP_CodeSniffer
       uses: ./.github/actions/run-phpcs
