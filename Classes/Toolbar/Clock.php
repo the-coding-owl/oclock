@@ -112,9 +112,7 @@ class Clock implements ToolbarItemInterface {
     {
         $currentDateTime = new \DateTime();
         return [
-            'class' => 'tx_oclock',
-            'data-time' => $currentDateTime->format('r'),
-            'data-timezone' => $currentDateTime->format('e')
+            'class' => 'tx_oclock'
         ];
     }
 

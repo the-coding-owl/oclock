@@ -1,24 +1,26 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
 <f:layout name="Toolbar/Empty" />
 <f:section name="main">
-  <p>
-    <f:translate key="toolbar.timezone.server" extensionName="oclock" />:
-    <span  class="server-timezone">
-      <f:format.date format="e">{date}</f:format.date>
-    </span>
-  </p>
-  <p>
-    <f:translate key="toolbar.time.server" extensionName="oclock" />:
-    <span class="server-time"></span>
-  </p>
-  <hr />
-  <p>
-    <f:translate key="toolbar.timezone.browser" extensionName="oclock" />:
-    <span class="browser-timezone"></span>
-  </p>
-  <p>
-    <f:translate key="toolbar.time.browser" extensionName="oclock" />: 
-    <span class="browser-time"></span>
-  </p>  
+  <div class="tx-oclock-container" data-time="{f:format.date(format:'r', date: '{date}')}" data-timezone="{f:format.date(format:'e', date: '{date}')}">
+    <p>
+      <f:translate key="toolbar.timezone.server" extensionName="oclock" />:
+      <span  class="server-timezone">
+        <f:format.date format="e">{date}</f:format.date>
+      </span>
+    </p>
+    <p>
+      <f:translate key="toolbar.time.server" extensionName="oclock" />:
+      <span class="server-time"></span>
+    </p>
+    <hr />
+    <p>
+      <f:translate key="toolbar.timezone.browser" extensionName="oclock" />:
+      <span class="browser-timezone"></span>
+    </p>
+    <p>
+      <f:translate key="toolbar.time.browser" extensionName="oclock" />: 
+      <span class="browser-time"></span>
+    </p>
+  </div>
 </f:section>
 </html>
