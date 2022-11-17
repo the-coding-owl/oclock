@@ -25,7 +25,7 @@ jobs:
         with:
           php_version: 7.2
           command: init
-          args: -n --name "the-coding-owl/typo3test" --require typo3/minimal:"^9.5"
+          args: -n --name the-coding-owl/typo3test --require typo3/minimal:"^9.5"
 
       - name: "Allow typo3/cms-composer-installers"
         uses: php-actions/composer@v6
