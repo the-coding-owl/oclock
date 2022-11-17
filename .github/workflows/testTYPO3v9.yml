@@ -1,0 +1,61 @@
+name: "TYPO3 9 Test"
+
+on:
+  pull_request:
+    branches: [ master ]
+    
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        env:
+          cache-name: cache-composer-dependencies
+        with:
+          path: ./.composer/cache
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: "Init composer.json"
+        uses: php-actions/composer@v6
+        with:
+          php_version: 7.2
+          command: init
+          args: -n --name "the-coding-owl/typo3test" --require typo3/minimal:"^9.5"
+
+      - name: "Allow typo3/cms-composer-installers"
+        uses: php-actions/composer@v6
+        with:
+          php_version: 7.2
+          command: config
+          args: --no-plugins allow-plugins.typo3/cms-composer-installers true
+
+      - name: "Allow typo3/class-alias-loader"
+        uses: php-actions/composer@v6
+        with:
+          php_version: 7.2
+          command: config
+          args: --no-plugins allow-plugins.typo3/class-alias-loader true
+
+      - name: "Install oclock extension"
+        uses: php-actions/composer@v6
+        with:
+          php_version: 7.2
+          command: require the-coding-owl/oclock:"dev-master" -n --no-progress --no-audit
+
+      - name: "Composer install dev dependencies"
+        uses: php-actions/composer@v6
+        with:
+          php_version: 7.2
+          command: install
+          args: -n --dev --no-progress
+
+      - name: Run PHP_CodeSniffer
+        uses: ./.github/actions/run-phpcs vendor/the-coding-owl/oclock/
+
+      - name: Run phpstan
+        uses: ./.github/actions/run-phpstan vendor/the-coding-owl/oclock/
