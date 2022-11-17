@@ -25,7 +25,7 @@ jobs:
         with:
           php_version: 7.2
           command: init
-          args: -n --name the-coding-owl/typo3test --require typo3/minimal:"^10.4" --require typo3/cms-dashboard:"^10.4"
+          args: -n --name the-coding-owl/typo3test --require typo3/minimal:^10.4 --require typo3/cms-dashboard:^10.4
 
       - name: "Allow typo3/cms-composer-installers"
         uses: php-actions/composer@v6
@@ -45,7 +45,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_version: 7.2
-          command: require the-coding-owl/oclock:"dev-master" -n --no-progress --no-audit
+          command: require the-coding-owl/oclock:dev-master -n --no-progress --no-audit
 
       - name: "Composer install dev dependencies"
         uses: php-actions/composer@v6
