@@ -73,7 +73,7 @@ jobs:
           args: -n --dev --no-progress
 
       - name: Run PHP_CodeSniffer
-        uses: vendor/bin/phpcs vendor/the-coding-owl/oclock/
+        uses: ./vendor/bin/phpcs vendor/the-coding-owl/oclock/
 
       - name: Run phpstan
-        uses: vendor/bin/phpstan vendor/the-coding-owl/oclock/
+        uses: ./vendor/bin/phpstan vendor/the-coding-owl/oclock/
