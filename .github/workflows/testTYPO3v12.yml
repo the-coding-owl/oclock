@@ -67,7 +67,13 @@ jobs:
           command: require the-coding-owl/oclock:@dev -n --no-progress --no-audit
 
       - name: Run PHP_CodeSniffer
-        run: ./vendor/bin/phpcs vendor/the-coding-owl/oclock/
+        uses: php-actions/composer@v6
+        with:
+          php_version: 8.1
+          command: exec phpcs vendor/the-coding-owl/oclock/
 
       - name: Run phpstan
-        run: ./vendor/bin/phpstan vendor/the-coding-owl/oclock/
+        uses: php-actions/composer@v6
+        with:
+          php_version: 8.1
+          command: exec phpstan vendor/the-coding-owl/oclock/
