@@ -155,4 +155,12 @@ class ClockWidget implements WidgetInterface, RequireJsModuleInterface, Addition
             'TYPO3/CMS/Oclock/Clock',
         ];
     }
+
+    /**
+     * @return array<string,string>
+     */
+    public function getOptions(): array
+    {
+        return [];
+    }
 }
