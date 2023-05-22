@@ -27,4 +27,5 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_version: 7.4
+          version: 1
           command: run testTYPO3v9
