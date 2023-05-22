@@ -78,6 +78,7 @@ class Clock implements ToolbarItemInterface {
     public function getItem(): string 
     {
         $this->view->setTemplate('Toolbar/Item');
+        $this->view->assign('date', new \DateTime());
         return $this->view->render();
     }
 
@@ -110,12 +111,7 @@ class Clock implements ToolbarItemInterface {
      */
     public function getAdditionalAttributes(): array
     {
-        $currentDateTime = new \DateTime();
-        return [
-            'class' => 'tx_oclock',
-            'data-time' => $currentDateTime->format('r'),
-            'data-timezone' => $currentDateTime->format('e')
-        ];
+        return [];
     }
 
     /**

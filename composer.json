@@ -16,9 +16,9 @@
   },
   "license": "GPL-3.0-or-later",
   "require": {
-    "typo3/cms-core": "^9.5.9 || ^10.1.0 || ^11.5.0",
-    "typo3/cms-backend": "^9.5.9 || ^10.1.0 || ^11.5.0",
-    "typo3/cms-fluid": "^9.5.9 || ^10.1.0 || ^11.5.0"
+    "typo3/cms-core": "^10.1.0 || ^11.5.0 || ^12.0.0",
+    "typo3/cms-backend": "^10.1.0 || ^11.5.0 || ^12.0.0",
+    "typo3/cms-fluid": "^10.1.0 || ^11.5.0 || ^12.0.0"
   },
   "suggest": {
     "typo3/cms-dashboard": "Make usage of the TYPO3 dashboard and the widgets provided by this extension"
@@ -49,6 +49,30 @@
   "extra": {
     "typo3/cms": {
       "extension-key": "oclock"
+    }
+  },
+  "scripts": {
+    "testTYPO3v12": [
+      "@composer req typo3/cms-dashboard:^12.0",
+      "phpcs",
+      "phpstan"
+    ],
+    "testTYPO3v11": [
+      "@composer req typo3/cms-dashboard:^11.0",
+      "phpcs",
+      "phpstan"
+    ],
+    "testTYPO3v10": [
+      "@composer req typo3/cms-dashboard:^10.0",
+      "phpcs",
+      "phpstan"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true,
+      "phpstan/extension-installer": true
     }
   }
 }

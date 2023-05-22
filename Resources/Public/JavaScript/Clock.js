@@ -229,7 +229,7 @@ class Clock {
     }
 }
 
-Clock.selector = '.tx_oclock';
+Clock.selector = '.tx-oclock-container';
 Clock.serverTimeSelector = '.server-time';
 Clock.browserTimeSelector = '.browser-time';
 Clock.serverTimeZoneSelector = '.server-timezone';
