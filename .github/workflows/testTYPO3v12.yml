@@ -63,12 +63,14 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_version: 8.1
+          php_extensions: intl, mbstring, pdo, json, xml, zip
           command: require the-coding-owl/oclock:@dev -n --no-progress --no-audit
 
       - name: "Composer install dev dependencies"
         uses: php-actions/composer@v6
         with:
           php_version: 8.1
+          php_extensions: intl, mbstring, pdo, json, xml, zip
           command: install
           args: -n --dev --no-progress
 
