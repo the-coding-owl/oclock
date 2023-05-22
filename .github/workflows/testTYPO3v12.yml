@@ -8,8 +8,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        path: oclock
+      - name: "Checkout oclock source"
+        uses: actions/checkout@v3
+        with:
+          path: ./oclock
+
       - name: Cache composer dependencies
         uses: actions/cache@v1
         env:
