@@ -8,6 +8,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        path: oclock
       - name: Cache composer dependencies
         uses: actions/cache@v1
         env:
@@ -41,11 +43,18 @@ jobs:
           command: config
           args: --no-plugins allow-plugins.typo3/class-alias-loader true
 
+      - name: "Configure local repository"
+        uses: php-actions/composer@v6
+        with:
+          php_version: 8.1
+          command: config
+          args: --no-plugins repositories.oclock path oclock/
+
       - name: "Install oclock extension"
         uses: php-actions/composer@v6
         with:
           php_version: 8.1
-          command: require the-coding-owl/oclock:dev-${{ env. }} -n --no-progress --no-audit
+          command: require the-coding-owl/oclock:@dev -n --no-progress --no-audit
 
       - name: "Composer install dev dependencies"
         uses: php-actions/composer@v6
@@ -55,7 +64,7 @@ jobs:
           args: -n --dev --no-progress
 
       - name: Run PHP_CodeSniffer
-        uses: ./.github/actions/run-phpcs vendor/the-coding-owl/oclock/
+        uses: ./oclock/.github/actions/run-phpcs vendor/the-coding-owl/oclock/
 
       - name: Run phpstan
-        uses: ./.github/actions/run-phpstan vendor/the-coding-owl/oclock/
+        uses: ./oclock/.github/actions/run-phpstan vendor/the-coding-owl/oclock/
