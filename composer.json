@@ -50,11 +50,5 @@
     "typo3/cms": {
       "extension-key": "oclock"
     }
-  },
-  "repositories": {
-    "oclock": {
-      "type": "path",
-      "url": "extensions/"
-    }
   }
 }
