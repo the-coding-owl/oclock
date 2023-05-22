@@ -50,5 +50,34 @@
     "typo3/cms": {
       "extension-key": "oclock"
     }
+  },
+  "scripts": {
+    "testTYPO3v12": [
+      "@composer req typo3/cms-dashboard:^12.0",
+      "phpcs",
+      "phpstan"
+    ],
+    "testTYPO3v11": [
+      "@composer req typo3/cms-dashboard:^11.0",
+      "phpcs",
+      "phpstan"
+    ],
+    "testTYPO3v10": [
+      "@composer req typo3/cms-dashboard:^10.0",
+      "phpcs",
+      "phpstan"
+    ],
+    "testTYPO3v9": [
+      "@composer req typo3/cms-core:^9.0",
+      "phpcs",
+      "phpstan"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true,
+      "phpstan/extension-installer": true
+    }
   }
 }

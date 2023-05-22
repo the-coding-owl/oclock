@@ -8,6 +8,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: "Checkout oclock source"
+        uses: actions/checkout@v3
+
       - name: Cache composer dependencies
         uses: actions/cache@v1
         env:
@@ -20,42 +23,8 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: "Init composer.json"
+      - name: "Run tests"
         uses: php-actions/composer@v6
         with:
-          php_version: 7.4
-          command: init
-          args: -n --name the-coding-owl/typo3test --require typo3/minimal:^11.5 --require typo3/cms-dashboard:^11.5
-
-      - name: "Allow typo3/cms-composer-installers"
-        uses: php-actions/composer@v6
-        with:
-          php_version: 7.4
-          command: config
-          args: --no-plugins allow-plugins.typo3/cms-composer-installers true
-
-      - name: "Allow typo3/class-alias-loader"
-        uses: php-actions/composer@v6
-        with:
-          php_version: 7.4
-          command: config
-          args: --no-plugins allow-plugins.typo3/class-alias-loader true
-
-      - name: "Install oclock extension"
-        uses: php-actions/composer@v6
-        with:
-          php_version: 7.4
-          command: require the-coding-owl/oclock:dev-master -n --no-progress --no-audit
-
-      - name: "Composer install dev dependencies"
-        uses: php-actions/composer@v6
-        with:
-          php_version: 7.4
-          command: install
-          args: -n --dev --no-progress
-
-      - name: Run PHP_CodeSniffer
-        uses: public/typo3conf/ext/oclock/.github/actions/run-phpcs public/typo3conf/ext/oclock/
-
-      - name: Run phpstan
-        uses: public/typo3conf/ext/oclock/.github/actions/run-phpstan public/typo3conf/ext/oclock/
+          php_version: 8.1
+          command: run testTYPO3v11

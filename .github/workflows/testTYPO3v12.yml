@@ -10,14 +10,6 @@ jobs:
     steps:
       - name: "Checkout oclock source"
         uses: actions/checkout@v3
-        with:
-          path: ./oclock
-
-      - name: "Setup PHP"
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.1'
-          extensions: intl, mbstring, pdo, json, xml, zip
 
       - name: Cache composer dependencies
         uses: actions/cache@v1
@@ -31,49 +23,8 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
-      - name: "Init composer.json"
+      - name: "Run tests"
         uses: php-actions/composer@v6
         with:
           php_version: 8.1
-          command: init
-          args: -n --name the-coding-owl/typo3test --require typo3/minimal:^12.0 --require typo3/cms-dashboard:^12.0
-
-      - name: "Allow typo3/cms-composer-installers"
-        uses: php-actions/composer@v6
-        with:
-          php_version: 8.1
-          command: config
-          args: --no-plugins allow-plugins.typo3/cms-composer-installers true
-
-      - name: "Allow typo3/class-alias-loader"
-        uses: php-actions/composer@v6
-        with:
-          php_version: 8.1
-          command: config
-          args: --no-plugins allow-plugins.typo3/class-alias-loader true
-
-      - name: "Configure local repository"
-        uses: php-actions/composer@v6
-        with:
-          php_version: 8.1
-          command: config
-          args: --no-plugins repositories.oclock path oclock/
-
-      - name: "Install oclock extension"
-        uses: php-actions/composer@v6
-        with:
-          php_version: 8.1
-          php_extensions: intl
-          command: require the-coding-owl/oclock:@dev -n --no-progress --no-audit
-
-      - name: Run PHP_CodeSniffer
-        uses: php-actions/composer@v6
-        with:
-          php_version: 8.1
-          command: exec phpcs vendor/the-coding-owl/oclock/
-
-      - name: Run phpstan
-        uses: php-actions/composer@v6
-        with:
-          php_version: 8.1
-          command: exec phpstan vendor/the-coding-owl/oclock/
+          command: run testTYPO3v12
