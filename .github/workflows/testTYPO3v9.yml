@@ -55,7 +55,7 @@ jobs:
           args: -n --dev --no-progress
 
       - name: Run PHP_CodeSniffer
-        uses: ./.github/actions/run-phpcs vendor/the-coding-owl/oclock/
+        uses: public/typo3conf/ext/oclock/.github/actions/run-phpcs public/typo3conf/ext/oclock/
 
       - name: Run phpstan
-        uses: ./.github/actions/run-phpstan vendor/the-coding-owl/oclock/
+        uses: public/typo3conf/ext/oclock/.github/actions/run-phpstan public/typo3conf/ext/oclock/
