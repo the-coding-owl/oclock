@@ -61,16 +61,6 @@
       "@composer req typo3/cms-dashboard:^12.0",
       "phpcs",
       "phpstan"
-    ],
-    "testTYPO3v11": [
-      "@composer req typo3/cms-dashboard:^11.0",
-      "phpcs",
-      "phpstan"
-    ],
-    "testTYPO3v10": [
-      "@composer req typo3/cms-dashboard:^10.0",
-      "phpcs",
-      "phpstan"
     ]
   },
   "config": {
