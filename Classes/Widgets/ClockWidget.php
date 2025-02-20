@@ -3,15 +3,17 @@ namespace TheCodingOwl\Oclock\Widgets;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Dashboard\Widgets\RequireJsModuleInterface;
 use TYPO3\CMS\Dashboard\Widgets\AdditionalCssInterface;
+use TYPO3\CMS\Dashboard\Widgets\JavaScriptInterface;
 use TYPO3\CMS\Dashboard\Widgets\WidgetInterface;
-use TYPO3\CMS\Fluid\View\StandaloneView;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewInterface;
+use TYPO3\CMS\Fluid\View\FluidViewFactory;
 
 /**
  * The widget for a clock
  */
-class ClockWidget implements WidgetInterface, RequireJsModuleInterface, AdditionalCssInterface {
+class ClockWidget implements WidgetInterface, JavaScriptInterface, AdditionalCssInterface {
     /**
      * The title of the widget
      *
@@ -25,13 +27,6 @@ class ClockWidget implements WidgetInterface, RequireJsModuleInterface, Addition
      * @var string
      */
     protected $description = 'LLL:EXT:oclock/Resources/Private/Language/locallang.xlf:widgets.clock.description';
-
-    /**
-     * The name of the widget template
-     *
-     * @var string
-     */
-    protected $templateName = 'Clock';
 
     /**
      * The icon identifier of the widget
@@ -57,7 +52,7 @@ class ClockWidget implements WidgetInterface, RequireJsModuleInterface, Addition
     /**
      * The view object
      *
-     * @var StandaloneView
+     * @var ViewInterface
      */
     protected $view;
 
@@ -77,12 +72,9 @@ class ClockWidget implements WidgetInterface, RequireJsModuleInterface, Addition
     
     /**
      * Constructor of the ClockWidget
-     * 
-     * @param StandaloneView $view
      */
-    public function __construct(StandaloneView $view)
+    public function __construct()
     {
-        $this->view = $view;
         /** @var ExtensionConfiguration $extensionConfiguration */
         $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
         /** @var array{dashboard:string[],additionalTemplateRootPath:string,additionalPartialRootPath:string,additionalLayoutRootPath:string} $extConf */
@@ -90,6 +82,7 @@ class ClockWidget implements WidgetInterface, RequireJsModuleInterface, Addition
         if (is_array($extConf)) {
             $this->extConf = $extConf;
         }
+        $this->initializeView();
     }
     
     /**
@@ -109,17 +102,22 @@ class ClockWidget implements WidgetInterface, RequireJsModuleInterface, Addition
             ]
         ];
         if (!empty($this->extConf['additionalTemplateRootPath'])) {
-            $templateRootPaths['template'][] = $this->extConf['additionalTemplateRootPath'];
+            $rootPaths['template'][] = $this->extConf['additionalTemplateRootPath'];
         }
         if (!empty($this->extConf['additionalPartialRootPath'])) {
-            $templateRootPaths['partial'][] = $this->extConf['additionalPartialRootPath'];
+            $rootPaths['partial'][] = $this->extConf['additionalPartialRootPath'];
         }
         if (!empty($this->extConf['additionalLayoutRootPath'])) {
-            $templateRootPaths['layout'][] = $this->extConf['additionalLayoutRootPath'];
+            $rootPaths['layout'][] = $this->extConf['additionalLayoutRootPath'];
         }
-        $this->view->setTemplateRootPaths($rootPaths['template']);
-        $this->view->setPartialRootPaths($rootPaths['partial']);
-        $this->view->setLayoutRootPaths($rootPaths['layout']);
+        $viewData = GeneralUtility::makeInstance(
+            ViewFactoryData::class,
+            $rootPaths['template'],
+            $rootPaths['partial'],
+            $rootPaths['layout']
+        );
+        $viewFactory = GeneralUtility::makeInstance(FluidViewFactory::class);
+        $this->view = $viewFactory->create($viewData);
     }
 
     /**
@@ -130,7 +128,7 @@ class ClockWidget implements WidgetInterface, RequireJsModuleInterface, Addition
     public function renderWidgetContent(): string
     {
         $this->view->assign('date', new \DateTime());
-        return $this->view->render();
+        return $this->view->render('Widget/Clock');
     }
     
     /**
@@ -144,15 +142,15 @@ class ClockWidget implements WidgetInterface, RequireJsModuleInterface, Addition
     }
 
     /**
-     * Get the requireJS modules
+     * Get the javascript modules
      *
      * @return string[]
      */
-    public function getRequireJsModules(): array
+    public function getJavaScriptModuleInstructions(): array
     {
         return [
-            'TYPO3/CMS/Oclock/Luxon',
-            'TYPO3/CMS/Oclock/Clock',
+            '@the-coding-owl/oclock/Luxon',
+            '@the-coding-owl/oclock/Clock',
         ];
     }
 
