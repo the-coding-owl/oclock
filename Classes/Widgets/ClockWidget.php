@@ -3,6 +3,7 @@ namespace TheCodingOwl\Oclock\Widgets;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Dashboard\Widgets\AdditionalCssInterface;
 use TYPO3\CMS\Dashboard\Widgets\JavaScriptInterface;
 use TYPO3\CMS\Dashboard\Widgets\WidgetInterface;
@@ -144,13 +145,13 @@ class ClockWidget implements WidgetInterface, JavaScriptInterface, AdditionalCss
     /**
      * Get the javascript modules
      *
-     * @return string[]
+     * @return list<JavaScriptModuleInstruction>
      */
     public function getJavaScriptModuleInstructions(): array
     {
         return [
-            '@the-coding-owl/oclock/Luxon',
-            '@the-coding-owl/oclock/Clock',
+            JavaScriptModuleInstruction::create('@the-coding-owl/oclock/Luxon.js'),
+            JavaScriptModuleInstruction::create('@the-coding-owl/oclock/Clock.js'),
         ];
     }
 

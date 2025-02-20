@@ -29,8 +29,8 @@ class Clock implements ToolbarItemInterface {
     public function __construct() 
     {
         $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $this->pageRenderer->loadJavaScriptModule('@the-coding-owl/oclock/Luxon');
-        $this->pageRenderer->loadJavaScriptModule('@the-coding-owl/oclock/Clock');
+        $this->pageRenderer->loadJavaScriptModule('@the-coding-owl/oclock/Luxon.js');
+        $this->pageRenderer->loadJavaScriptModule('@the-coding-owl/oclock/Clock.js');
         /** @var ExtensionConfiguration $extensionConfiguration */
         $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
         /** @var array{dashboard:string[],additionalTemplateRootPath:string,additionalPartialRootPath:string,additionalLayoutRootPath:string} $extConf */
