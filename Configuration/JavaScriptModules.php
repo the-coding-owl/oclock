@@ -5,6 +5,6 @@ return [
         'backend'
     ],
     'imports' => [
-        '@the-coding-owl/oclock' => 'EXT:oclock/Resources/Public/JavaScript/'
+        '@the-coding-owl/oclock/' => 'EXT:oclock/Resources/Public/JavaScript/'
     ]
 ];
