@@ -74,23 +74,17 @@ class ClockWidget implements WidgetInterface, JavaScriptInterface, AdditionalCss
     /**
      * Constructor of the ClockWidget
      */
-    public function __construct()
+    public function __construct(
+        ExtensionConfiguration $extensionConfiguration,
+        FluidViewFactory $viewFactory
+    )
     {
-        /** @var ExtensionConfiguration $extensionConfiguration */
-        $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
         /** @var array{dashboard:string[],additionalTemplateRootPath:string,additionalPartialRootPath:string,additionalLayoutRootPath:string} $extConf */
         $extConf = $extensionConfiguration->get('oclock');
         if (is_array($extConf)) {
             $this->extConf = $extConf;
         }
-        $this->initializeView();
-    }
-    
-    /**
-     * Initialize the widget view
-     */
-    protected function initializeView(): void
-    {
+        
         $rootPaths = [
             'template' => [
                 'EXT:oclock/Resources/Private/Templates/'
@@ -111,6 +105,7 @@ class ClockWidget implements WidgetInterface, JavaScriptInterface, AdditionalCss
         if (!empty($this->extConf['additionalLayoutRootPath'])) {
             $rootPaths['layout'][] = $this->extConf['additionalLayoutRootPath'];
         }
+        
         $viewData = GeneralUtility::makeInstance(
             ViewFactoryData::class,
             $rootPaths['template'],
