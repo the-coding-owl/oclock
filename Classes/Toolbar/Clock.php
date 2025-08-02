@@ -26,7 +26,7 @@ class Clock implements ToolbarItemInterface {
     /**
      * Constructs the Clock toolbar item
      */
-    public function __construct() 
+    public function __construct()
     {
         $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $this->pageRenderer->loadJavaScriptModule('@the-coding-owl/oclock/Luxon.js');
