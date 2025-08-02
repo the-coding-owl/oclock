@@ -26,13 +26,11 @@ class Clock implements ToolbarItemInterface {
     /**
      * Constructs the Clock toolbar item
      */
-    public function __construct()
+    public function __construct(ExtensionConfiguration $extensionConfiguration, FluidViewFactory $viewFactory)
     {
         $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
         $this->pageRenderer->loadJavaScriptModule('@the-coding-owl/oclock/Luxon.js');
         $this->pageRenderer->loadJavaScriptModule('@the-coding-owl/oclock/Clock.js');
-        /** @var ExtensionConfiguration $extensionConfiguration */
-        $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
         /** @var array{dashboard:string[],additionalTemplateRootPath:string,additionalPartialRootPath:string,additionalLayoutRootPath:string} $extConf */
         $extConf = $extensionConfiguration->get('oclock');
         $rootPaths = [
@@ -62,7 +60,6 @@ class Clock implements ToolbarItemInterface {
             $rootPaths['partial'],
             $rootPaths['layout']
         );
-        $viewFactory = GeneralUtility::makeInstance(FluidViewFactory::class);
         $this->view = $viewFactory->create($viewData);
     }
 
