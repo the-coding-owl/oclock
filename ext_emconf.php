@@ -28,12 +28,12 @@ $EM_CONF[$_EXTKEY] = array(
     'version' => '0.0.9',
     'constraints' => array(
         'depends' => array(
-            'typo3' => '>9.5.9'
+            'typo3' => '>12.4.0'
         ),
         'conflicts' => array(
         ),
         'suggests' => array(
-          'dashboard' => '>10.3'
+          'dashboard' => '>12.4.0'
         )
     )
 );

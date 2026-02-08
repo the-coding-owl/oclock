@@ -1,6 +1,6 @@
 {
   "name": "the-coding-owl/oclock",
-  "description": "This extension provides a clock in the TYPO3 Backend and gives a few neat functions",
+  "description": "This extension provides a clock in the TYPO3 Backend",
   "type": "typo3-cms-extension",
   "homepage": "https://github.com/the-coding-owl/oclock",
   "keywords": [
@@ -16,12 +16,9 @@
   },
   "license": "GPL-3.0-or-later",
   "require": {
-    "typo3/cms-core": "^10.1.0 || ^11.5.0 || ^12.0.0",
-    "typo3/cms-backend": "^10.1.0 || ^11.5.0 || ^12.0.0",
-    "typo3/cms-fluid": "^10.1.0 || ^11.5.0 || ^12.0.0"
-  },
-  "suggest": {
-    "typo3/cms-dashboard": "Make usage of the TYPO3 dashboard and the widgets provided by this extension"
+    "typo3/cms-core": "^12.0.0 || ^13.0.0",
+    "typo3/cms-backend": "^12.0.0 || ^13.0.0",
+    "typo3/cms-fluid": "^12.0.0 || ^13.0.0"
   },
   "authors": [
     {
@@ -52,18 +49,11 @@
     }
   },
   "scripts": {
+    "testTYPO3v13": [
+      "phpcs",
+      "phpstan"
+    ],
     "testTYPO3v12": [
-      "@composer req typo3/cms-dashboard:^12.0",
-      "phpcs",
-      "phpstan"
-    ],
-    "testTYPO3v11": [
-      "@composer req typo3/cms-dashboard:^11.0",
-      "phpcs",
-      "phpstan"
-    ],
-    "testTYPO3v10": [
-      "@composer req typo3/cms-dashboard:^10.0",
       "phpcs",
       "phpstan"
     ]

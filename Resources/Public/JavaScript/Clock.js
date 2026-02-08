@@ -1,5 +1,6 @@
-class Clock {
+import DocumentService from '@typo3/core/document-service.js';
 
+class Clock {
     /**
      * Constructor of a Clock object
      *
@@ -237,7 +238,7 @@ Clock.browserTimeZoneSelector = '.browser-timezone';
 Clock.interval = 1000;
 Clock.instances = [];
 
-define(['TYPO3/CMS/Oclock/Luxon'], function (luxon) {
+DocumentService.ready().then(() => {
     Clock.init(luxon);
 
     /*eslint-disable max-depth*/
@@ -264,6 +265,4 @@ define(['TYPO3/CMS/Oclock/Luxon'], function (luxon) {
         subtree: true,
         childList: true
     });
-
-    return Clock;
 });

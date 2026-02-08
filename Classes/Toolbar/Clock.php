@@ -3,37 +3,27 @@ namespace TheCodingOwl\Oclock\Toolbar;
 
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewInterface;
+use TYPO3\CMS\Fluid\View\FluidViewFactory;
 
 /**
  * Clock toolbar class
  */
-class Clock implements ToolbarItemInterface {
-    /**
-     * @var StandaloneView
-     */
-    protected $view;
-    
-    /**
-     * @var PageRenderer
-     */
-    protected $pageRenderer;
-    
+class Clock implements ToolbarItemInterface
+{
     /**
      * Constructs the Clock toolbar item
      */
-    public function __construct() 
+    public function __construct(protected readonly ExtensionConfiguration $extensionConfiguration, protected readonly FluidViewFactory $viewFactory)
     {
-        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Luxon');
-        $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/Oclock/Clock');
-        $this->view = GeneralUtility::makeInstance(StandaloneView::class);
-        /** @var ExtensionConfiguration $extensionConfiguration */
-        $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+    }
+
+    protected function createView(): ViewInterface
+    {
         /** @var array{dashboard:string[],additionalTemplateRootPath:string,additionalPartialRootPath:string,additionalLayoutRootPath:string} $extConf */
-        $extConf = $extensionConfiguration->get('oclock');
+        $extConf = $this->extensionConfiguration->get('oclock');
         $rootPaths = [
             'template' => [
                 'EXT:oclock/Resources/Private/Templates/'
@@ -46,18 +36,22 @@ class Clock implements ToolbarItemInterface {
             ]
         ];
         if (!empty($extConf['additionalTemplateRootPath'])) {
-            $templateRootPaths['template'][] = $extConf['additionalTemplateRootPath'];
+            $rootPaths['template'][] = $extConf['additionalTemplateRootPath'];
         }
         if (!empty($extConf['additionalPartialRootPath'])) {
-            $templateRootPaths['partial'][] = $extConf['additionalPartialRootPath'];
+            $rootPaths['partial'][] = $extConf['additionalPartialRootPath'];
         }
         if (!empty($extConf['additionalLayoutRootPath'])) {
-            $templateRootPaths['layout'][] = $extConf['additionalLayoutRootPath'];
+            $rootPaths['layout'][] = $extConf['additionalLayoutRootPath'];
         }
-        $this->view->setTemplateRootPaths($rootPaths['template']);
-        $this->view->setPartialRootPaths($rootPaths['partial']);
-        $this->view->setLayoutRootPaths($rootPaths['layout']);
-        
+
+        $viewData = GeneralUtility::makeInstance(
+            ViewFactoryData::class,
+            $rootPaths['template'],
+            $rootPaths['partial'],
+            $rootPaths['layout']
+        );
+        return $this->viewFactory->create($viewData);
     }
 
     /**
@@ -65,7 +59,7 @@ class Clock implements ToolbarItemInterface {
      *
      * @return bool
      */
-    public function checkAccess(): bool 
+    public function checkAccess(): bool
     {
         return true;
     }
@@ -75,11 +69,11 @@ class Clock implements ToolbarItemInterface {
      *
      * @return string
      */
-    public function getItem(): string 
+    public function getItem(): string
     {
-        $this->view->setTemplate('Toolbar/Item');
-        $this->view->assign('date', new \DateTime());
-        return $this->view->render();
+        $view = $this->createView();
+        $view->assign('date', new \DateTime());
+        return $view->render('Toolbar/Item');
     }
 
     /**
@@ -99,9 +93,9 @@ class Clock implements ToolbarItemInterface {
      */
     public function getDropDown(): string
     {
-        $this->view->setTemplate('Toolbar/DropDown');
-        $this->view->assign('date', new \DateTime());
-        return $this->view->render();
+        $view = $this->createView();
+        $view->assign('date', new \DateTime());
+        return $view->render('Toolbar/DropDown');
     }
 
     /**
