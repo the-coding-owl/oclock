@@ -1,3 +1,6 @@
+<f:be.pageRenderer
+    includeJavaScriptModules="{0:'@the-coding-owl/oclock/Clock.js'}"
+    includeJsFiles="{0: 'https://cdn.jsdelivr.net/npm/luxon@3.7.2/build/global/luxon.min.js'}" />
 <div class="tx-oclock-container" data-time="{f:format.date(format:'r', date: '{date}')}" data-timezone="{f:format.date(format:'e', date: '{date}')}">
     <span class="server-time"></span>
 </div>

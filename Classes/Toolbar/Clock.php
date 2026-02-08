@@ -3,7 +3,6 @@ namespace TheCodingOwl\Oclock\Toolbar;
 
 use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewInterface;
@@ -12,27 +11,19 @@ use TYPO3\CMS\Fluid\View\FluidViewFactory;
 /**
  * Clock toolbar class
  */
-class Clock implements ToolbarItemInterface {
-    /**
-     * @var ViewInterface
-     */
-    protected $view;
-    
-    /**
-     * @var PageRenderer
-     */
-    protected PageRenderer $pageRenderer;
-    
+class Clock implements ToolbarItemInterface
+{
     /**
      * Constructs the Clock toolbar item
      */
-    public function __construct(ExtensionConfiguration $extensionConfiguration, FluidViewFactory $viewFactory)
+    public function __construct(protected readonly ExtensionConfiguration $extensionConfiguration, protected readonly FluidViewFactory $viewFactory)
     {
-        $this->pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $this->pageRenderer->loadJavaScriptModule('@the-coding-owl/oclock/Luxon.js');
-        $this->pageRenderer->loadJavaScriptModule('@the-coding-owl/oclock/Clock.js');
+    }
+
+    protected function createView(): ViewInterface
+    {
         /** @var array{dashboard:string[],additionalTemplateRootPath:string,additionalPartialRootPath:string,additionalLayoutRootPath:string} $extConf */
-        $extConf = $extensionConfiguration->get('oclock');
+        $extConf = $this->extensionConfiguration->get('oclock');
         $rootPaths = [
             'template' => [
                 'EXT:oclock/Resources/Private/Templates/'
@@ -60,7 +51,7 @@ class Clock implements ToolbarItemInterface {
             $rootPaths['partial'],
             $rootPaths['layout']
         );
-        $this->view = $viewFactory->create($viewData);
+        return $this->viewFactory->create($viewData);
     }
 
     /**
@@ -68,7 +59,7 @@ class Clock implements ToolbarItemInterface {
      *
      * @return bool
      */
-    public function checkAccess(): bool 
+    public function checkAccess(): bool
     {
         return true;
     }
@@ -78,10 +69,11 @@ class Clock implements ToolbarItemInterface {
      *
      * @return string
      */
-    public function getItem(): string 
+    public function getItem(): string
     {
-        $this->view->assign('date', new \DateTime());
-        return $this->view->render('Toolbar/Item');
+        $view = $this->createView();
+        $view->assign('date', new \DateTime());
+        return $view->render('Toolbar/Item');
     }
 
     /**
@@ -101,8 +93,9 @@ class Clock implements ToolbarItemInterface {
      */
     public function getDropDown(): string
     {
-        $this->view->assign('date', new \DateTime());
-        return $this->view->render('Toolbar/DropDown');
+        $view = $this->createView();
+        $view->assign('date', new \DateTime());
+        return $view->render('Toolbar/DropDown');
     }
 
     /**
